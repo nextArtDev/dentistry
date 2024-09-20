@@ -1,0 +1,84 @@
+'use client'
+import { motion } from 'framer-motion'
+
+// const s = stylex.create({
+//   links: {
+//     position: 'absolute',
+//     width: '100%',
+//     height: '100%',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     gap: '20px',
+//   },
+//   a: {
+//     fontSize: {
+//       default: '40px',
+//       '@media (max-width: 670px)': '20px',
+//     },
+//   },
+// })
+const variants = {
+  open: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+  closed: {
+    transition: {
+      staggerChildren: 0.05,
+      staggerDirection: -1,
+    },
+  },
+}
+const itemVariants = {
+  open: {
+    //comes from bottom
+    y: 0,
+    opacity: 1,
+  },
+  closed: {
+    // 50px
+    y: 50,
+    opacity: 0,
+  },
+}
+
+const Links = () => {
+  const items = ['Homepage', 'Services', 'Portfolio', 'Contact', 'About']
+
+  return (
+    <motion.div
+      //   className={stylex(s.links)}
+      //   className="links"
+      style={{
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '20px',
+      }}
+      variants={variants}
+    >
+      {items.map((item) => (
+        <motion.a
+          //   className={stylex(s.a)}
+
+          href={`#${item}`}
+          key={item}
+          variants={itemVariants}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          {item}
+        </motion.a>
+      ))}
+    </motion.div>
+  )
+}
+
+export default Links

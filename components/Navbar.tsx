@@ -1,0 +1,66 @@
+'use client'
+import { motion } from 'framer-motion'
+import { FC } from 'react'
+import Sidebar from './sidebar/Sidebar'
+
+interface NavbarProps {}
+
+const Navbar: FC<NavbarProps> = ({}) => {
+  return (
+    <div className="navbar h-[100px] ">
+      {/* Sidebar */}
+      <Sidebar />
+
+      <div className="wrapper w-screen max-w-[1366px] m-auto flex items-center justify-between h-full sm:justify-end p-5 ">
+        <motion.span
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="icon font-bold sm:hidden "
+        >
+          Lama Dev
+        </motion.span>
+        {/* <div className="social  flex-full gap-5 ">
+          <Link href="#" className="relative p-4">
+            <Image
+              className=" icon"
+              width={18}
+              height={18}
+              src="/facebook.png"
+              alt=""
+            />
+          </Link>
+          <Link href="#" className="relative p-4">
+            <Image
+              className=" icon"
+              width={18}
+              height={18}
+              src="/instagram.png"
+              alt=""
+            />
+          </Link>
+          <Link href="#" className="relative p-4">
+            <Image
+              className=" icon"
+              width={18}
+              height={18}
+              src="/youtube.png"
+              alt=""
+            />
+          </Link>
+          <Link href="#" className="relative p-4">
+            <Image
+              className=" icon"
+              width={18}
+              height={18}
+              src="/dribbble.png"
+              alt=""
+            />
+          </Link>
+        </div> */}
+      </div>
+    </div>
+  )
+}
+
+export default Navbar
