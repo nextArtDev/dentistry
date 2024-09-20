@@ -1,5 +1,9 @@
 import Hero from '@/components/Hero'
 
 export default function Home() {
-  return <Hero />
+  return (
+    <section className="w-screen h-full min-h-screen">
+      <Hero />
+    </section>
+  )
 }
