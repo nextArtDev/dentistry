@@ -28,6 +28,7 @@ const Sidebar = () => {
 
   return (
     <motion.div
+      dir="ltr"
       className=""
       style={{
         display: 'flex',

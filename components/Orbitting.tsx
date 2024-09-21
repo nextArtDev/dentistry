@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 // دندان مصنوعی، ایمپلنت، روکش دندان، ارتودنسی، ترمیم دندان، جراحی لثه، دندانپزشکی زیبایی
 export default function Orbiting() {
   return (
-    <div className="relative flex h-[500px] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+    <div className="relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden md:shadow-xl">
       {/* <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-black">
         Circles
       </span> */}
@@ -33,7 +33,7 @@ export default function Orbiting() {
 
       {/* Outer Circles (reverse) */}
       <OrbitingCircles
-        className=" size-[50px] border-none bg-transparent"
+        className="z-[2] size-[50px] border-none bg-transparent"
         radius={130}
         duration={28}
         delay={28}
@@ -44,7 +44,7 @@ export default function Orbiting() {
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
-        className=" size-[50px] border-none bg-transparent"
+        className="z-[2] size-[50px] border-none bg-transparent"
         radius={130}
         duration={28}
         delay={14}
@@ -55,7 +55,7 @@ export default function Orbiting() {
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
-        className=" size-[50px] border-none bg-transparent"
+        className="z-[2] size-[50px] border-none bg-transparent"
         radius={130}
         duration={28}
         delay={7}
@@ -66,7 +66,7 @@ export default function Orbiting() {
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
-        className=" size-[50px] border-none bg-transparent"
+        className="z-[2] size-[50px] border-none bg-transparent"
         radius={130}
         duration={28}
         delay={21}
@@ -82,7 +82,10 @@ export default function Orbiting() {
 
 const Content = ({ children }: { children: ReactNode }) => {
   return (
-    <article className="!p-1 border w-44 h-16 flex items-center justify-center text-center text-black/80 bg-white/25 backdrop-blur-lg rounded-3xl font-semibold">
+    <article
+      style={{ borderRadius: '999' }}
+      className="!p-2 border w-44 h-auto flex items-center justify-center text-center text-[rebeccapurple]/80 bg-white/10 backdrop-blur-sm rounded-full font-semibold "
+    >
       {children}
     </article>
   )

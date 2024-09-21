@@ -91,5 +91,14 @@ body {
   }
 }
 
+.magicpattern {
+  /* width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: repeat; */
+  background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cdefs%3E%3CclipPath id=%22a%22%3E%3Cpath fill=%22currentColor%22 d=%22M690.5 643.5q-190.5 143.5-425 0t0-303q234.5-159.5 425 0t0 303Z%22%2F%3E%3C%2FclipPath%3E%3C%2Fdefs%3E%3Cg clip-path=%22url(%23a)%22%3E%3Cpath fill=%ff%ffffff7%22 d=%22M690.5 643.5q-190.5 143.5-425 0t0-303q234.5-159.5 425 0t0 303Z%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E');
+}
+
 /* color1:#FC898B */
 /* color2:#F39C9D */

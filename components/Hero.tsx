@@ -42,6 +42,22 @@ const sliderVariants = {
   },
 }
 
+const shapeVariants = {
+  hidden: {
+    pathLength: 0,
+    opacity: 0,
+    y: -50, // Start offscreen above
+  },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    y: 0, // Move to center
+    transition: {
+      duration: 1,
+      ease: 'easeInOut',
+    },
+  },
+}
 const Hero = () => {
   return (
     <div
@@ -55,8 +71,8 @@ const Hero = () => {
       }}
     >
       <Image fill src={HeroBG} alt="hero" className="object-cover -z-[1] " />
-      <section className="  grid grid-cols-1 grid-rows-8 md::grid-cols-2  w-full h-full mx-auto max-w-screen-xl  ">
-        <article className="text-center row-span-2 flex flex-col  items-center justify-center w-full h-full  ">
+      <section className="  grid grid-cols-1 grid-rows-9 md::grid-cols-2  w-full h-full mx-auto max-w-screen-xl  ">
+        <article className="text-center row-span-2 flex flex-col pt-16 items-center justify-center w-full h-full  ">
           <motion.div
             className="textContainer"
             // style={{
@@ -84,13 +100,13 @@ const Hero = () => {
             </motion.h2>
             <motion.h1
               variants={textVariants}
-              className="text-xl font-semibold"
+              className="text-xl font-semibold text-[rebeccapurple]/70"
             >
               جراح و دندانپزشک
             </motion.h1>
           </motion.div>
         </article>
-        <article className="relative  row-span-6">
+        <article className="relative  row-span-7">
           <figure className="relative flex flex-col w-full h-full">
             <Image
               fill
@@ -100,31 +116,54 @@ const Hero = () => {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <Image
-              width={128}
-              height={128}
+              width={64}
+              height={64}
               src={tooth.src}
               alt=""
-              className="z-[3] absolute top-[10vh] right-[2vw] w-16 h-32       object-contain py-8 animate-bounce"
+              className="z-[3] absolute top-[6vh] right-[2vw]         object-contain py-8 animate-bounce"
             />
-            <Orbiting />
-            <div className="absolute z-[2] bg-white/40 backdrop-blur-md px-2 place-content-center place-items-center py-1 rounded-md bottom-0 w-full h-1/4 grid grid-cols-3 grid-rows-2 gap-0.5">
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                1
+
+            <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
+              <div className="relative w-full min-h-full">
+                <motion.svg
+                  className="absolute top-0 left-0 w-full h-full"
+                  viewBox="0 0 200 200"
+                  variants={shapeVariants}
+                  initial="hidden"
+                  animate="visible"
+                >
+                  <motion.path
+                    d="M44.2,-12.8C48.1,-2.3,35.9,15.1,18,29.2C0.1,43.2,-23.5,53.9,-34.7,46.1C-46,38.3,-45,12,-37.2,-3.9C-29.4,-19.8,-14.7,-25.2,2.7,-26.1C20.1,-27,40.3,-23.3,44.2,-12.8Z"
+                    transform="translate(100 100)"
+                    fill="#ffffff88"
+                    stroke="#FC898B33"
+                    pathLength={1}
+                  />
+                </motion.svg>
+                <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-black font-bold">
+                  23 سال سابقه
+                </span>
               </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                2
+            </div>
+
+            <div className="text-[rebeccapurple] font-semibold text-sm absolute z-[2]   px-2 place-content-center place-items-center py-1 rounded-md bottom-0 w-full h-1/4 grid grid-cols-3 grid-rows-2 gap-0.5">
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                <p>دندان مصنوعی</p>
               </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                3
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                روکش دندان
               </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                4
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                ارتودنسی
               </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                5
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                دندانپزشکی زیبایی
               </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full ">
-                6
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                ترمیم دندان
+              </div>
+              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
+                ایمپلنت
               </div>
             </div>
           </figure>
@@ -202,7 +241,7 @@ const Hero = () => {
           />
         </motion.div>
       </div>
-      <motion.div
+      {/* <motion.div
         className="slidingTextContainer"
         style={{
           position: 'absolute',
@@ -218,7 +257,7 @@ const Hero = () => {
         animate="animate"
       >
         Writer Content Creator Influencer
-      </motion.div>
+      </motion.div> */}
     </div>
   )
 }
