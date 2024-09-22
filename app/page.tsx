@@ -10,17 +10,20 @@ import BMasnoei from '../public/images/b-a/before-masnooei.webp'
 import AMasnoei from '../public/images/b-a/after-masnooei.webp'
 import BTarmim from '../public/images/b-a/before-tarmim.webp'
 import ATarmim from '../public/images/b-a/after-tarmim.webp'
+
+import Highlights from '@/components/Highlights'
 export default function Home() {
   return (
-    <section className="max-w-screen overflow-x-hidden h-full min-h-screen ">
+    <section className="relative max-w-screen   h-full min-h-screen ">
       <Hero />
+      <Highlights />
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
-        <CompareSlider
+        {/* <CompareSlider
           before={BImplant}
           after={AImplant}
           disease="ایمپلنت"
           index={1}
-        />
+        /> */}
         <CompareSlider
           before={BOrtodensi}
           after={AOrtodensi}
@@ -46,6 +49,7 @@ export default function Home() {
           index={1}
         />
       </section>
+      {/* <Highlights /> */}
       {/* <CompareSlider before={} after={} disease="" index={} /> */}
     </section>
   )
