@@ -61,7 +61,7 @@ const shapeVariants = {
 const Hero = () => {
   return (
     <div
-      className="  hero relative bg-opacity-35 "
+      className="w-full overflow-x-hidden hero relative bg-opacity-35 "
       style={{
         // height: 'calc(100vh - 100px)',
         position: 'relative',
@@ -122,8 +122,8 @@ const Hero = () => {
               alt=""
               className="z-[3] absolute top-[6vh] right-[2vw]         object-contain py-8 animate-bounce"
             />
-
-            <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
+            <Orbiting />
+            {/* <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
               <div className="relative w-full min-h-full">
                 <motion.svg
                   className="absolute top-0 left-0 w-full h-full"
@@ -144,7 +144,7 @@ const Hero = () => {
                   23 سال سابقه
                 </span>
               </div>
-            </div>
+            </div> */}
 
             <div className="text-[rebeccapurple] font-semibold text-sm absolute z-[2]   px-2 place-content-center place-items-center py-1 rounded-md bottom-0 w-full h-1/4 grid grid-cols-3 grid-rows-2 gap-0.5">
               <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
