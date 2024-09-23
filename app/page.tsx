@@ -12,11 +12,16 @@ import BTarmim from '../public/images/b-a/before-tarmim.webp'
 import ATarmim from '../public/images/b-a/after-tarmim.webp'
 
 import Highlights from '@/components/Highlights'
+import { ImageCarousel } from '@/components/image-carousel/image-carousel'
 export default function Home() {
   return (
     <section className="relative max-w-screen   h-full min-h-screen ">
       <Hero />
       <Highlights />
+
+      <section className="relative my-20 !pt-[100vh]">
+        <ImageCarousel />
+      </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
         {/* <CompareSlider
           before={BImplant}

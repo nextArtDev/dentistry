@@ -73,6 +73,14 @@ const config: Config = {
             height: '0',
           },
         },
+        'carousel-move': {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+        'fade-in': {
+          from: { opacity: '0', transform: 'translateY(-10px)' },
+          to: { opacity: '1', transform: 'none' },
+        },
         orbit: {
           '0%': {
             transform:
@@ -87,6 +95,9 @@ const config: Config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'carousel-move': 'carousel-move var(--duration,50s) infinite',
+        'fade-in': 'fade-in 1000ms var(--animation-delay, 0ms) ease forwards',
+
         orbit: 'orbit calc(var(--duration)*1s) linear infinite',
       },
     },
