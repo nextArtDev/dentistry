@@ -208,16 +208,16 @@ const VideoCarousel = () => {
     <>
       <div className="flex items-center">
         {hightlightsSlides.map((list, i) => (
-          <div key={list.id} id="slider" className="sm:pr-20 pr-10">
+          <div key={list.id} id="slider" className="sm:pr-20 pr-6">
             <div className="video-carousel_container">
-              <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
+              <div className="w-full flex-center rounded-2xl overflow-hidden !h-auto bg-gray-500/70 ml-4   ">
                 <video
                   id="video"
                   playsInline={true}
                   className={`${
                     // list.id === 2 && 'translate-x-44'
                     list.id === 2 && 'translate-x-0'
-                  } pointer-events-none`}
+                  }  pointer-events-none`}
                   preload="auto"
                   muted
                   ref={(el) => {
@@ -251,15 +251,15 @@ const VideoCarousel = () => {
         ))}
       </div>
 
-      <div className="relative flex-center mt-10">
-        <div className="flex-center py-5 px-7 bg-gray-300 backdrop-blur rounded-full">
+      <div className="relative flex-center  md:mt-10">
+        <div className="flex-center py-5 px-7 bg-gray-500 backdrop-blur rounded-full">
           {videoRef.current.map((_, i) => (
-            <span
+            <div
               key={i}
-              className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer"
+              className="overflow-hidden mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer"
               ref={(el) => {
                 if (el) {
-                  videoSpanRef.current[i] = el
+                  videoDivRef.current[i] = el
                 }
               }}
             >
@@ -271,13 +271,13 @@ const VideoCarousel = () => {
                   }
                 }}
               />
-            </span>
+            </div>
           ))}
         </div>
 
-        <button className="relative control-btn">
+        <button className="relative !bg-gray-500 control-btn">
           <Image
-            className="fill"
+            className="fill "
             src={isLastVideo ? ReplayImg : !isPlaying ? PlayImg : PauseImg}
             alt={isLastVideo ? 'replay' : !isPlaying ? 'play' : 'pause'}
             onClick={

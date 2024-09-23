@@ -23,7 +23,7 @@ const Highlights = () => {
           dir="rtl"
           className="mb-12 w-full md:flex items-end justify-between"
         >
-          <h1 id="title" className="section-heading">
+          <h1 id="title" className="">
             هایلایت‌ها
           </h1>
 
