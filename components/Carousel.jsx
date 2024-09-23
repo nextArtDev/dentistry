@@ -1,56 +1,25 @@
+'use client'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/all'
 gsap.registerPlugin(ScrollTrigger)
 import { useEffect, useRef, useState } from 'react'
-import { hightlightsSlides } from '../constants'
+
 // import { pauseImg, playImg, replayImg } from '../lib/utils'
-import ReplayImg from '../public/images/replay.svg'
-import PlayImg from '../public/images/play.svg'
-import PauseImg from '../public/images/pause.svg'
-import Image from 'next/image'
-
-//claude-3-haiku-20240307
-interface VideoProps {
-  isEnd: boolean
-  startPlay: boolean
-  videoId: number
-  isLastVideo: boolean
-  isPlaying: boolean
-}
-
-// interface VideoSlideProps {
-//   id: number
-//   video: string
-//   videoDuration: number
-//   textLists: string[]
-// }
+import replayImg from '../public/images/replay.svg'
+// import ReplayImg from '../public/assets/images/replay.svg'
+import playImg from '../public/images/play.svg'
+import pauseImg from '../public/images/pause.svg'
+// import Image from 'next/image'
+import { hightlightsSlides } from '@/constants'
 
 const VideoCarousel = () => {
-  const videoRef = useRef<(HTMLVideoElement | null)[]>(
-    Array(hightlightsSlides.length).fill(null)
-  )
-  const videoSpanRef = useRef<(HTMLSpanElement | null)[]>(
-    Array(hightlightsSlides.length).fill(null)
-  )
+  const videoRef = useRef([])
+  const videoSpanRef = useRef([])
+  const videoDivRef = useRef([])
 
-  const videoDivRef = useRef<(HTMLDivElement | null)[]>(
-    Array(hightlightsSlides.length).fill(null)
-  )
-  // useEffect(() => {
-  //   if (hightlightsSlides) {
-  //     videoRef.current = Array.from(
-  //       { length: hightlightsSlides.length },
-  //       () => null
-  //     )
-
-  //     videoSpanRef.current = Array(hightlightsSlides.length).fill(null)
-
-  //     videoDivRef.current = Array(hightlightsSlides.length).fill(null)
-  //   }
-  // }, [hightlightsSlides])
   // video and indicator
-  const [video, setVideo] = useState<VideoProps>({
+  const [video, setVideo] = useState({
     isEnd: false,
     startPlay: false,
     videoId: 0,
@@ -58,7 +27,7 @@ const VideoCarousel = () => {
     isPlaying: false,
   })
 
-  const [loadedData, setLoadedData] = useState<unknown[]>([])
+  const [loadedData, setLoadedData] = useState([])
   const { isEnd, isLastVideo, startPlay, videoId, isPlaying } = video
 
   useGSAP(() => {
@@ -87,11 +56,11 @@ const VideoCarousel = () => {
 
   useEffect(() => {
     let currentProgress = 0
-    const span: (HTMLSpanElement | null)[] = videoSpanRef.current!
+    let span = videoSpanRef.current
 
     if (span[videoId]) {
       // animation to move the indicator
-      const anim: TweenLite = gsap.to(span[videoId], {
+      let anim = gsap.to(span[videoId], {
         onUpdate: () => {
           // get the progress of the video
           const progress = Math.ceil(anim.progress() * 100)
@@ -137,7 +106,7 @@ const VideoCarousel = () => {
       // update the progress bar
       const animUpdate = () => {
         anim.progress(
-          videoRef.current[videoId]?.currentTime /
+          videoRef.current[videoId].currentTime /
             hightlightsSlides[videoId].videoDuration
         )
       }
@@ -150,29 +119,23 @@ const VideoCarousel = () => {
         gsap.ticker.remove(animUpdate)
       }
     }
-  }, [videoId, startPlay, isPlaying])
+  }, [videoId, startPlay])
 
   useEffect(() => {
     if (loadedData.length > 3) {
       if (!isPlaying) {
-        videoRef.current[videoId]?.pause()
+        videoRef.current[videoId].pause()
       } else {
-        startPlay && videoRef.current[videoId]?.play()
+        startPlay && videoRef.current[videoId].play()
       }
     }
   }, [startPlay, videoId, isPlaying, loadedData])
 
-  useEffect(() => {
-    if (startPlay && videoRef.current[videoId]) {
-      videoRef.current[videoId]?.play()
-    }
-  }, [startPlay, videoId])
-
   // vd id is the id for every video until id becomes number 3
-  const handleProcess = (type: string, i?: number) => {
+  const handleProcess = (type, i) => {
     switch (type) {
       case 'video-end':
-        setVideo((pre) => ({ ...pre, isEnd: true, videoId: i! + 1 }))
+        setVideo((pre) => ({ ...pre, isEnd: true, videoId: i + 1 }))
         break
 
       case 'video-last':
@@ -196,13 +159,7 @@ const VideoCarousel = () => {
     }
   }
 
-  // const handleLoadedMetaData = (i, e) => setLoadedData((pre) => [...pre, e])
-  const handleLoadedMetaData = (
-    i: number,
-    e: React.SyntheticEvent<HTMLVideoElement, Event>
-  ) => {
-    setLoadedData((pre) => [...pre, e.currentTarget])
-  }
+  const handleLoadedMetaData = (i, e) => setLoadedData((pre) => [...pre, e])
 
   return (
     <>
@@ -215,16 +172,11 @@ const VideoCarousel = () => {
                   id="video"
                   playsInline={true}
                   className={`${
-                    // list.id === 2 && 'translate-x-44'
                     list.id === 2 && 'translate-x-0'
                   } pointer-events-none`}
                   preload="auto"
                   muted
-                  ref={(el) => {
-                    if (el) {
-                      videoRef.current[i] = el
-                    }
-                  }}
+                  ref={(el) => (videoRef.current[i] = el)}
                   onEnded={() =>
                     i !== 3
                       ? handleProcess('video-end', i)
@@ -257,28 +209,19 @@ const VideoCarousel = () => {
             <span
               key={i}
               className="mx-2 w-3 h-3 bg-gray-200 rounded-full relative cursor-pointer"
-              ref={(el) => {
-                if (el) {
-                  videoSpanRef.current[i] = el
-                }
-              }}
+              ref={(el) => (videoDivRef.current[i] = el)}
             >
               <span
                 className="absolute h-full w-full rounded-full"
-                ref={(el) => {
-                  if (el) {
-                    videoSpanRef.current[i] = el
-                  }
-                }}
+                ref={(el) => (videoSpanRef.current[i] = el)}
               />
             </span>
           ))}
         </div>
 
-        <button className="relative control-btn">
-          <Image
-            className="fill"
-            src={isLastVideo ? ReplayImg : !isPlaying ? PlayImg : PauseImg}
+        <button className="control-btn">
+          <img
+            src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
             alt={isLastVideo ? 'replay' : !isPlaying ? 'play' : 'pause'}
             onClick={
               isLastVideo

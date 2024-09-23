@@ -8,7 +8,7 @@ export const hightlightsSlides = [
   },
   {
     id: 2,
-    textLists: ['', 'ایمپلنت'],
+    textLists: ['ایمپلنت'],
     video: '/videos/Vysokokvalitné Zubné Implantáty V Bratislave.webm',
     videoDuration: 12,
   },
