@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-
+//https://www.uibeats.com/docs/components/sparkling-grid
 //usage
 //const { theme } = useTheme();
 // <div className="relative h-80 w-full">
@@ -27,6 +27,7 @@ interface SparklingGridProps {
 
 export const SparklingGrid: React.FC<SparklingGridProps> = ({
   gridSize = 30,
+  // sparkleFrequency = 0.03,
   sparkleFrequency = 0.03,
   sparkleColor = { light: 'darkgray', dark: 'silver' },
   dotColor = { light: 'bg-black/20', dark: 'bg-white/20' },
@@ -106,7 +107,7 @@ export const SparklingGrid: React.FC<SparklingGridProps> = ({
   return (
     <motion.div
       ref={containerRef}
-      className="absolute -z-50 top-0 inset-0 overflow-hidden"
+      className="absolute -z-50 top-0 inset-0 overflow-hidden "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}

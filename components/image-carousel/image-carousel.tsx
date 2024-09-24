@@ -29,7 +29,7 @@ export const ImageCarousel = () => {
     const yScale = xScale * (16 / 9) * windowYRatio
     return Math.max(xScale, yScale)
   }, [width, height])
-  console.log({ maximumScale })
+  // console.log({ maximumScale })
   const scale = useTransform(
     scrollYProgress,
     [0.3, 0.5, 0.66],

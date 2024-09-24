@@ -1,3 +1,4 @@
+import { Circle } from './beam/AnimatedBeamDemo'
 import OrbitingCircles from './OrbittingCircles'
 import { ReactNode } from 'react'
 
@@ -17,7 +18,9 @@ export default function Orbiting() {
         radius={50}
       >
         <Content>
-          <h2>ترمیم</h2>
+          <Circle className="bg-transparent border-none">
+            <h2>ترمیم</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
@@ -27,7 +30,9 @@ export default function Orbiting() {
         radius={50}
       >
         <Content>
-          <h2>ایمپلنت</h2>
+          <Circle className="bg-transparent border-none">
+            <h2>ایمپلنت</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
 
@@ -40,7 +45,9 @@ export default function Orbiting() {
         reverse
       >
         <Content>
-          <h2> روکش دندان</h2>
+          <Circle className="bg-transparent border-none">
+            <h2> روکش دندان</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
@@ -51,7 +58,9 @@ export default function Orbiting() {
         reverse
       >
         <Content>
-          <h2>دندان مصنوعی</h2>
+          <Circle className="bg-transparent border-none">
+            <h2>دندان مصنوعی</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
@@ -62,7 +71,9 @@ export default function Orbiting() {
         reverse
       >
         <Content>
-          <h2>جراحی لثه</h2>
+          <Circle className="bg-transparent border-none">
+            <h2>جراحی لثه</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
@@ -73,7 +84,9 @@ export default function Orbiting() {
         reverse
       >
         <Content>
-          <h2>ارتودنسی</h2>
+          <Circle className="bg-transparent border-none">
+            <h2>ارتودنسی</h2>
+          </Circle>
         </Content>
       </OrbitingCircles>
     </div>
