@@ -27,3 +27,40 @@ export const hightlightsSlides = [
     videoDuration: 16,
   },
 ]
+export const team = [
+  {
+    avatar: '/images/doctors/1.jpeg',
+    name: 'Martiana dialan',
+    title: 'Product designer',
+    linkedin: 'javascript:void(0)',
+    twitter: 'javascript:void(0)',
+  },
+  {
+    avatar: '/images/doctors/2.jpeg',
+    name: 'Micheal colorand',
+    title: 'Software engineer',
+    linkedin: 'javascript:void(0)',
+    twitter: 'javascript:void(0)',
+  },
+  {
+    avatar: '/images/doctors/3.jpg',
+    name: 'Brown Luis',
+    title: 'Full stack engineer',
+    linkedin: 'javascript:void(0)',
+    twitter: 'javascript:void(0)',
+  },
+  {
+    avatar: '/images/doctors/4.jpeg',
+    name: 'Lysa sandiago',
+    title: 'Head of designers',
+    linkedin: 'javascript:void(0)',
+    twitter: 'javascript:void(0)',
+  },
+  {
+    avatar: '/images/doctors/5.jpeg',
+    name: 'Daniel martin',
+    title: 'Product designer',
+    linkedin: 'javascript:void(0)',
+    twitter: 'javascript:void(0)',
+  },
+]

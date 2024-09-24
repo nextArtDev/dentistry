@@ -14,11 +14,13 @@ import ATarmim from '../public/images/b-a/after-tarmim.webp'
 import Highlights from '@/components/Highlights'
 import { ImageCarousel } from '@/components/image-carousel/image-carousel'
 import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
+import Team from '@/components/team'
 export default function Home() {
   return (
     <section className="relative max-w-screen   h-full min-h-screen ">
       <Hero />
       <AnimatedBeamDemo />
+      <Team />
       <Highlights />
 
       <section className="relative my-20 !pt-[100vh]">
@@ -56,6 +58,7 @@ export default function Home() {
           index={1}
         />
       </section>
+
       {/* <Highlights /> */}
       {/* <CompareSlider before={} after={} disease="" index={} /> */}
     </section>

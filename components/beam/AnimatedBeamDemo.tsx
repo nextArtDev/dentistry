@@ -48,7 +48,7 @@ export function AnimatedBeamDemo() {
     //   blurAmount="10px"
     // >
     <div
-      className=" relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg border bg-background p-10 md:shadow-xl text-primary font-semibold"
+      className=" relative flex h-[500px] w-full items-center justify-center overflow-hidden rounded-lg  p-10 md:shadow-xl text-primary font-semibold"
       ref={containerRef}
     >
       <SparklingGrid theme={'dark'} />

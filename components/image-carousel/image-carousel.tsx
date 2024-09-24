@@ -33,7 +33,8 @@ export const ImageCarousel = () => {
   const scale = useTransform(
     scrollYProgress,
     [0.3, 0.5, 0.66],
-    [maximumScale * 1.1, maximumScale, 1]
+    // [maximumScale * 1.1, maximumScale, 1]
+    [maximumScale * 0.95, maximumScale, 1]
     // [1.8, 1.3, 1]
   )
 
