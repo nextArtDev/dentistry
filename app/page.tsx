@@ -20,7 +20,9 @@ export default function Home() {
     <section className="relative max-w-screen   h-full min-h-screen ">
       <Hero />
       <AnimatedBeamDemo />
-      <Team />
+      <section dir="ltr">
+        <Team />
+      </section>
       <Highlights />
 
       <section className="relative my-20 !pt-[100vh]">
