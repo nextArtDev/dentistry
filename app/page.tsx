@@ -27,7 +27,7 @@ export default function Home() {
       </section>
       <Highlights />
 
-      <section className="relative my-20 !pt-[100vh]">
+      <section dir="ltr" className="relative my-20 !pt-[100vh]">
         <ImageCarousel />
       </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">

@@ -7,18 +7,21 @@ import { useScroll, useTransform } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 import Image, { StaticImageData } from 'next/image'
+import { cn } from '@/lib/utils'
 
 interface CompareSliderProps {
   index: number
   before: StaticImageData
   after: StaticImageData
   disease: string
+  className?: string
 }
 const CompareSlider = ({
   index = 1,
   before,
   after,
   disease,
+  className,
 }: CompareSliderProps) => {
   const containerRef = useRef(null)
   const [sliderPosition, setSliderPosition] = useState(50)
@@ -45,7 +48,10 @@ const CompareSlider = ({
     <div
       dir="ltr"
       ref={containerRef}
-      className="max-w-[96vw] mx-auto h-auto flex items-center justify-center   backdrop-blur-sm p-4  "
+      className={cn(
+        'max-w-[96vw] mx-auto h-auto flex items-center justify-center   backdrop-blur-sm p-4',
+        className
+      )}
     >
       <div className="relative  w-[98vw] h-[50vh] max-w-4xl shadow-2xl rounded-lg overflow-hidden">
         <ReactCompareSlider

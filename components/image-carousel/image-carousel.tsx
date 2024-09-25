@@ -1,6 +1,14 @@
 'use client'
 
-import { Movie, movies, randomMoviesSet1, randomMoviesSet2 } from './video'
+import {
+  Movie,
+  movies,
+  RandomMovie,
+  randomMoviesSet1,
+  randomMoviesSet2,
+  randomMoviesSet3,
+  randomMoviesSet4,
+} from './video'
 
 import {
   useScroll,
@@ -14,6 +22,8 @@ import Image from 'next/image'
 // import { useWindowSize } from './useWindowSize'
 
 import { Button } from '@/components/ui/button'
+import Comparison from '../compare/Comparison'
+import { Compare } from '../compare/Compare'
 
 export const ImageCarousel = () => {
   const { width, height } = useWindowSize()
@@ -25,7 +35,9 @@ export const ImageCarousel = () => {
 
   const maximumScale = useMemo(() => {
     const windowYRatio = height / width
-    const xScale = 1.66667
+    const windowXRatio = width / height
+    // const xScale = 1.66667
+    const xScale = 1 * windowXRatio
     const yScale = xScale * (16 / 9) * windowYRatio
     return Math.max(xScale, yScale)
   }, [width, height])
@@ -65,11 +77,11 @@ export const ImageCarousel = () => {
     <motion.div
       dir="ltr"
       animate={carouselVariant}
-      className="bg-gradient-to-t from-orange-950/20 to-orange-500/20 pb-16 z-0 "
+      className="bg-gradient-to-t from-white to-#FC898B pb-16 z-0 "
     >
       <div
         ref={carouselWrapperRef}
-        className="mt-[-100vh] h-[300vh] overflow-clip"
+        className="mt-[-100vh] h-[250vh] overflow-clip"
       >
         <div className="sticky top-0 flex h-screen items-center">
           <div className="relative left-1/2 mb-5 flex -translate-x-1/2 gap-5">
@@ -128,29 +140,42 @@ export const ImageCarousel = () => {
         transition={{ duration: 0.4 }}
         className="-mt-[calc((100vh-(300px*(16/9)))/2)] space-y-3 pt-4 md:-mt-[calc((100vh-(60vw*(9/16)))/2)]"
       >
-        <SmallImageCarousel movies={randomMoviesSet1} />
+        <SmallImageCarousel movies={randomMoviesSet3} />
         <div className="[--carousel-offset:-32px] [--duration:60s]">
-          <SmallImageCarousel movies={randomMoviesSet2} />
+          <SmallImageCarousel movies={randomMoviesSet4} />
         </div>
       </motion.div>
     </motion.div>
   )
 }
 
-const SmallImageCarousel = ({ movies }: { movies: Movie[] }) => {
+// const SmallImageCarousel = ({ movies }: { movies: Movie[] }) => {
+const SmallImageCarousel = ({ movies }: { movies: RandomMovie[] }) => {
   return (
-    <div className="overflow-clip">
+    <div dir="ltr" className="overflow-clip">
       <div className="animate-carousel-move relative left-[var(--carousel-offset,0px)] flex gap-3">
         {movies.map((movie, index) => (
           <div
-            className="relative aspect-video w-[40vw] shrink-0 md:w-[23vw]"
-            key={`${movie.name}-${index}`}
+            className="relative aspect-video w-[40vw] shrink-0 md:w-[23vw] overflow-hidden"
+            key={`${movie.id}-${index}`}
           >
-            <Image
+            {/* <Image
               fill
               className="rounded-xl object-cover"
               src={movie.poster}
               alt={movie.name}
+            /> */}
+            <Compare
+              firstImage={movie.beforeImgSrc}
+              secondImage={movie.afterImgSrc}
+              firstImageClassName="object-cover  "
+              secondImageClassname="object-cover  "
+              className="h-[20vh] w-[40vw] shrink-0 md:w-[23vw]"
+              // className="rounded-2xl "
+              slideMode="hover"
+              showHandlebar={false}
+              autoplayDuration={8000 * Math.random() + 2000}
+              autoplay
             />
           </div>
         ))}

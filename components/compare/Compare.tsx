@@ -4,9 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
-import { SparklesCore } from './Sparkles'
 import { FlipHorizontal2 } from 'lucide-react'
-import Image from 'next/image'
+import { SparklesCore } from './Sparkles'
 
 interface CompareProps {
   firstImage?: string
@@ -85,11 +84,14 @@ export const Compare = ({
     startAutoplay()
   }
 
-  const handleStart = useCallback(() => {
-    if (slideMode === 'drag') {
-      setIsDragging(true)
-    }
-  }, [slideMode])
+  const handleStart = useCallback(
+    (clientX: number) => {
+      if (slideMode === 'drag') {
+        setIsDragging(true)
+      }
+    },
+    [slideMode]
+  )
 
   const handleEnd = useCallback(() => {
     if (slideMode === 'drag') {
@@ -187,7 +189,6 @@ export const Compare = ({
           </div>
           {showHandlebar && (
             <div className="h-5 w-5 rounded-md top-1/2 -translate-y-1/2 bg-white z-30 -right-2.5 absolute   flex items-center justify-center shadow-[0px_-1px_0px_0px_#FFFFFF40]">
-              {/* <IconDotsVertical className="h-4 w-4 text-black" /> */}
               <FlipHorizontal2 className="h-4 w-4 text-black" />
             </div>
           )}
@@ -206,18 +207,15 @@ export const Compare = ({
               }}
               transition={{ duration: 0 }}
             >
-              <figure className="relative w-full h-full">
-                <Image
-                  fill
-                  alt="first image"
-                  src={firstImage}
-                  className={cn(
-                    'absolute inset-0  z-20 rounded-2xl flex-shrink-0 w-full h-full select-none',
-                    firstImageClassName
-                  )}
-                  draggable={false}
-                />
-              </figure>
+              <img
+                alt="first image"
+                src={firstImage}
+                className={cn(
+                  'absolute inset-0  z-20 rounded-2xl flex-shrink-0 w-full h-full select-none',
+                  firstImageClassName
+                )}
+                draggable={false}
+              />
             </motion.div>
           ) : null}
         </AnimatePresence>

@@ -56,3 +56,63 @@ export const randomMoviesSet2 = movies
   .concat(movies.sort(() => Math.random() - 0.5))
   .concat(movies.sort(() => Math.random() - 0.5))
   .sort(() => Math.random() - 0.5)
+
+export type RandomMovie = {
+  id: string
+  beforeImgSrc: string
+  afterImgSrc: string
+}
+export const randomMoviesSet3 = [
+  {
+    id: '1',
+    beforeImgSrc: '/images/b-a/before-implant.web',
+    afterImgSrc: '/images/b-a/after-implant.webp',
+  },
+  {
+    id: '2',
+    beforeImgSrc: '/images/b-a/beefore-ortodensi.webp',
+    afterImgSrc: '/images/b-a/after-ortodensi.webp',
+  },
+  {
+    id: '3',
+    beforeImgSrc: '/images/b-a/before-jermgiri.webp',
+    afterImgSrc: '/images/b-a/after-jermgiri.webp',
+  },
+  {
+    id: '4',
+    beforeImgSrc: '/images/b-a/before-masnooei.webp',
+    afterImgSrc: '/images/b-a/after-masnooei.webp',
+  },
+  {
+    id: '5',
+    beforeImgSrc: '/images/b-a/before-tarmim.webp',
+    afterImgSrc: '/images/b-a/after-tarmim.webp',
+  },
+]
+export const randomMoviesSet4 = [
+  {
+    id: '1',
+    beforeImgSrc: '/images/b-a/before-implant.web',
+    afterImgSrc: '/images/b-a/after-implant.webp',
+  },
+  {
+    id: '2',
+    beforeImgSrc: '/images/b-a/beefore-ortodensi.webp',
+    afterImgSrc: '/images/b-a/after-ortodensi.webp',
+  },
+  {
+    id: '3',
+    beforeImgSrc: '/images/b-a/before-jermgiri.webp',
+    afterImgSrc: '/images/b-a/after-jermgiri.webp',
+  },
+  {
+    id: '4',
+    beforeImgSrc: '/images/b-a/before-masnooei.webp',
+    afterImgSrc: '/images/b-a/after-masnooei.webp',
+  },
+  {
+    id: '5',
+    beforeImgSrc: '/images/b-a/before-tarmim.webp',
+    afterImgSrc: '/images/b-a/after-tarmim.webp',
+  },
+]
