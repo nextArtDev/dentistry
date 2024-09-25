@@ -65,7 +65,7 @@ export type RandomMovie = {
 export const randomMoviesSet3 = [
   {
     id: '1',
-    beforeImgSrc: '/images/b-a/before-implant.web',
+    beforeImgSrc: '/images/b-a/before-implant.webp',
     afterImgSrc: '/images/b-a/after-implant.webp',
   },
   {
