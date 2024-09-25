@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       String @id @default(cuid())
+  phone    String @unique
+  name     String
+  password String
+
+  profileImage   Image?  @relation("profileImage", fields: [profileImageId], references: [id])
+  profileImageId String? @unique
+  beforeImage    Image?  @relation("beforeImage", fields: [beforeImageId], references: [id])
+  beforeImageId  String? @unique
+  afterImage     Image?  @relation("afterImage", fields: [afterImageId], references: [id])
+  afterImageId   String? @unique
+
+  role   Role    @default(USER)
+  gender String?
+
+  // verificationCode Int?
+  // verificationDate DateTime?
+  // isVerified Boolean @default(false)
+  // username String? @unique 
+
+  TimeLine TimeLine[]
+  Review   Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([profileImageId])
+  @@index([beforeImageId])
+  @@index([afterImageId])
+}
+
+enum Role {
+  USER
+  ADMIN
+  DOCTOR
+}
+
+model Image {
+  id  String @id @default(cuid())
+  url String @db.Text
+  key String @db.Text
+
+  userProfile   User? @relation("profileImage")
+  userBeforePic User? @relation("beforeImage")
+  userAfterPic  User? @relation("afterImage")
+
+  Gallery   Gallery? @relation(fields: [galleryId], references: [id])
+  galleryId String?
+
+  Personnel   Personnel? @relation(fields: [personnelId], references: [id])
+  personnelId String?
+
+  TimeLine   TimeLine? @relation(fields: [timeLineId], references: [id])
+  timeLineId String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@unique([personnelId])
+}
+
+model Gallery {
+  id          String  @id @default(uuid())
+  name        String?
+  description String?
+  images      Image[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Personnel {
+  id          String @id @default(cuid())
+  name        String
+  description String
+
+  images Image[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Review {
+  id String @id @default(uuid())
+
+  comment    String   @db.Text
+  rating     Float
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  isFaq Boolean @default(false)
+
+  user   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@index([userId])
+}
+
+model TimeLine {
+  id String @id @default(uuid())
+
+  comment String  @db.Text
+  images  Image[]
+  user    User?   @relation(fields: [userId], references: [id])
+  userId  String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([userId])
+}
