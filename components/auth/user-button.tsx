@@ -17,7 +17,6 @@ import { useCurrentUser } from '@/hooks/use-current-user'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { buttonVariants } from '../ui/button'
-import { signOut } from 'next-auth/react'
 
 export const UserButton = () => {
   const user = useCurrentUser()

@@ -26,6 +26,9 @@ const variants = {
 const Sidebar = () => {
   const [open, setOpen] = useState(false)
 
+  // className =
+  //   'sidebar flex flex-col items-center justify-center bg-white/20 backdrop-blur-sm text-black'
+  // className = 'z-50 fixed top-0 left-0 bg-white backdrop-blur-sm w-[400px]'
   return (
     <motion.div
       dir="ltr"
@@ -36,6 +39,7 @@ const Sidebar = () => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'white',
+
         color: 'black',
       }}
       //   className="sidebar"
@@ -50,9 +54,10 @@ const Sidebar = () => {
           top: '0',
           left: '0',
           bottom: '0',
-          background: '#ffffff',
+          background: '#ffffff97',
 
-          backdropFilter: '12px',
+          // backdropFilter: '12px',
+          backdropFilter: '50px',
           width: '400px',
         }}
         variants={variants}

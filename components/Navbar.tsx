@@ -12,7 +12,7 @@ const Navbar: FC<NavbarProps> = ({}) => {
 
       <Sidebar />
 
-      <div className="wrapper w-screen max-w-[1366px] m-auto flex items-center justify-between h-full sm:justify-end p-5 ">
+      <div className="wrapper w-full max-w-[1366px] m-auto flex items-center justify-between h-full sm:justify-end p-5 ">
         <motion.span
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}

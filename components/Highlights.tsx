@@ -16,7 +16,7 @@ const Highlights = () => {
     <section
       dir="ltr"
       id="highlights"
-      className="w-screen overflow-hidden h-full common-padding bg-white text-black  "
+      className=" overflow-hidden h-full common-padding bg-white text-black  "
     >
       <div className="screen-max-width">
         <div

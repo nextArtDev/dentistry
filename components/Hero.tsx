@@ -5,6 +5,7 @@ import tooth from '../public/images/tooth.png'
 import HeroBG from '../public/images/herobg.png'
 import Image from 'next/image'
 import Orbiting from './Orbitting'
+import Works from './works'
 
 const textVariants = {
   initial: {
@@ -113,17 +114,18 @@ const Hero = () => {
               src={HeroImage.src}
               alt=""
               className="z-[1]  object-contain w-fit px-10"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
             <Image
-              width={64}
-              height={64}
+              width={52}
+              height={50}
               src={tooth.src}
               alt=""
-              className="z-[3] absolute top-[6vh] right-[2vw]         object-contain py-8 animate-bounce"
+              className="z-[3] absolute top-[5vh] left-[85%]         object-contain py-8 animate-bounce"
             />
             <Orbiting />
-            {/* <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
+          </figure>
+          {/* <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
               <div className="relative w-full min-h-full">
                 <motion.svg
                   className="absolute top-0 left-0 w-full h-full"
@@ -146,27 +148,7 @@ const Hero = () => {
               </div>
             </div> */}
 
-            <div className="text-[rebeccapurple] font-semibold text-sm absolute z-[2]   px-2 place-content-center place-items-center py-1 rounded-md bottom-0 w-full h-1/4 grid grid-cols-3 grid-rows-2 gap-0.5">
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                <p>دندان مصنوعی</p>
-              </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                روکش دندان
-              </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                ارتودنسی
-              </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                دندانپزشکی زیبایی
-              </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                ترمیم دندان
-              </div>
-              <div className="bg-white/10 rounded-md backdrop-blur-sm w-full h-full flex items-center justify-center flex-col">
-                ایمپلنت
-              </div>
-            </div>
-          </figure>
+          <Works />
         </article>
       </section>
       <div

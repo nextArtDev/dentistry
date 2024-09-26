@@ -200,7 +200,8 @@ const VideoCarousel1 = () => {
                   } pointer-events-none object-cover object-center scale-125  origin-center aspect-video `}
                   preload="auto"
                   muted
-                  // @ts-ignore
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                  // @ts-expect-error
                   ref={(el) => (videoRef.current[i] = el as HTMLVideoElement)}
                   onEnded={() =>
                     i !== 3
@@ -237,14 +238,14 @@ const VideoCarousel1 = () => {
             <span
               key={i}
               className="mx-2 w-3 h-3 bg-gray-500 rounded-full relative  "
-              // @ts-ignore
+              // @ts-expect-error
               ref={(el: HTMLSpanElement | null) =>
                 (videoDivRef.current[i] = el as HTMLSpanElement | null)
               }
             >
               <span
                 className="absolute h-full w-full rounded-full"
-                // @ts-ignore
+                // @ts-expect-error
                 ref={(el: HTMLSpanElement | null) =>
                   (videoSpanRef.current[i] = el)
                 }

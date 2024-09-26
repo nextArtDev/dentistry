@@ -15,19 +15,21 @@ import Highlights from '@/components/Highlights'
 import { ImageCarousel } from '@/components/image-carousel/image-carousel'
 import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
 import Team from '@/components/team'
-import Comparison from '@/components/compare/Comparison'
+// import Comparison from '@/components/compare/Comparison'
 export default function Home() {
   return (
     <section className="relative max-w-screen   h-full min-h-screen ">
-      <Hero />
-      <Comparison />
+      <section className="overflow-x-hidden">
+        <Hero />
+      </section>
+      {/* <Comparison /> */}
       <AnimatedBeamDemo />
       <section dir="ltr">
         <Team />
       </section>
       <Highlights />
 
-      <section dir="ltr" className="relative my-20 !pt-[100vh]">
+      <section dir="ltr" className="relative my-20">
         <ImageCarousel />
       </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
