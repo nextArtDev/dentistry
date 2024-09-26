@@ -81,3 +81,12 @@ const Team = () => {
 }
 
 export default Team
+
+// ;<div className="relative flex-none w-24 h-24">
+//   <Image
+//     fill
+//     src={item.avatar}
+//     className="w-full h-full rounded-full object-cover"
+//     alt=""
+//   />
+// </div>

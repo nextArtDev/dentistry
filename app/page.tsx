@@ -15,6 +15,26 @@ import Highlights from '@/components/Highlights'
 import { ImageCarousel } from '@/components/image-carousel/image-carousel'
 import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
 import Team from '@/components/team'
+import TeamAnimatedBeam from '@/components/beam/TeamAnimatedBeam'
+
+// const cardData = {
+//   title: 'Amazing Product',
+//   description: 'This is a fantastic.',
+//   src: '/images/doctors/1.jpeg',
+//   ctaText: 'Learn More',
+//   ctaLink: 'https://example.com/product',
+//   content: (
+//     <div className="ltr">
+//       <p>Heres some detailed information about our Amazing Product:</p>
+//       <ul>
+//         <li>Feature 1: Incredible performance</li>
+//         <li>Feature 2: Easy to use</li>
+//         <li>Feature 3: Affordable price</li>
+//       </ul>
+//       <p>Dont miss out on this opportunity to improve your life!</p>
+//     </div>
+//   ),
+// }
 // import Comparison from '@/components/compare/Comparison'
 export default function Home() {
   return (
@@ -22,9 +42,11 @@ export default function Home() {
       <section className="overflow-x-hidden">
         <Hero />
       </section>
+      <TeamAnimatedBeam />
+      {/* <ExpandableCardDemo card={cardData} /> */}
       {/* <Comparison /> */}
       <AnimatedBeamDemo />
-      <section dir="ltr">
+      <section>
         <Team />
       </section>
       <Highlights />

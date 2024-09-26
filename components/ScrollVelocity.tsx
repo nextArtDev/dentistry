@@ -35,7 +35,7 @@ export default function ScrollVelocity({
     clamp,
   })
 
-  const x = useTransform(baseX, (v) => `${wrap(0, -50, v)}%`)
+  const x = useTransform(baseX, (v) => `${wrap(0, 50, v)}%`)
 
   const directionFactor = useRef<number>(1)
   const scrollThreshold = useRef<number>(5)
@@ -53,9 +53,9 @@ export default function ScrollVelocity({
   function move(delta: number) {
     let moveBy = directionFactor.current * velocity * (delta / 1000)
     if (velocityFactor.get() < 0) {
-      directionFactor.current = -1
-    } else if (velocityFactor.get() > 0) {
       directionFactor.current = 1
+    } else if (velocityFactor.get() > 0) {
+      directionFactor.current = -1
     }
     moveBy += directionFactor.current * moveBy * velocityFactor.get()
     baseX.set(baseX.get() + moveBy)
