@@ -156,12 +156,12 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
             </motion.p>
           </div>
         </div>
-        <motion.button
+        {/* <motion.button
           layoutId={`button-${card.title}-${id}`}
           className="  px-2 py-1 text-sm rounded-full font-bold bg-gray-100 hover:bg-green-500 hover:text-white text-black mt-4 md:mt-0"
         >
           {card.ctaText}
-        </motion.button>
+        </motion.button> */}
       </motion.div>
     </>
   )

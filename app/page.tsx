@@ -13,8 +13,8 @@ import ATarmim from '../public/images/b-a/after-tarmim.webp'
 
 import Highlights from '@/components/Highlights'
 import { ImageCarousel } from '@/components/image-carousel/image-carousel'
-import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
-import Team from '@/components/team'
+// import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
+// import Team from '@/components/team'
 import TeamAnimatedBeam from '@/components/beam/TeamAnimatedBeam'
 
 // const cardData = {
@@ -45,10 +45,10 @@ export default function Home() {
       <TeamAnimatedBeam />
       {/* <ExpandableCardDemo card={cardData} /> */}
       {/* <Comparison /> */}
-      <AnimatedBeamDemo />
-      <section>
+      {/* <AnimatedBeamDemo /> */}
+      {/* <section>
         <Team />
-      </section>
+      </section> */}
       <Highlights />
 
       <section dir="ltr" className="relative my-20">
