@@ -16,6 +16,9 @@ import { ImageCarousel } from '@/components/image-carousel/image-carousel'
 // import { AnimatedBeamDemo } from '@/components/beam/AnimatedBeamDemo'
 // import Team from '@/components/team'
 import TeamAnimatedBeam from '@/components/beam/TeamAnimatedBeam'
+import RotatingNavigation from '@/components/rotaing-ill/rotating-nav'
+import RenderModel from '@/components/rotaing-ill/render-model'
+import Model from '@/components/Model'
 
 // const cardData = {
 //   title: 'Amazing Product',
@@ -53,6 +56,12 @@ export default function Home() {
 
       <section dir="ltr" className="relative my-20">
         <ImageCarousel />
+      </section>
+      <section className="relative mx-auto overflow-hidden w-full h-screen">
+        <RotatingNavigation />
+        <RenderModel className="w-32">
+          <Model />
+        </RenderModel>
       </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
         {/* <CompareSlider

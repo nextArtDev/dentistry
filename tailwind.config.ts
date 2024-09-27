@@ -51,6 +51,14 @@ const config: Config = {
           '5': 'hsl(var(--chart-5))',
         },
       },
+      backgroundImage: {
+        'firefly-radial':
+          'radial-gradient(50% 50% at 50% 50%, rgba(253, 255, 80, 0.5) 0%, rgba(217,217,217, 0) 100%)',
+      },
+      boxShadow: {
+        'glass-inset': 'inset 0 17px 5px -9px rgba(254,254,91, 0.05)',
+        'glass-sm': '5px 5px 20px 0px rgba(254,254,91, 0.3)',
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
@@ -95,6 +103,10 @@ const config: Config = {
               'rotate(360deg) translateY(calc(var(--radius) * 1px)) rotate(-360deg)',
           },
         },
+        'spin-reverse': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(-360deg)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -103,6 +115,8 @@ const config: Config = {
         'fade-in': 'fade-in 1000ms var(--animation-delay, 0ms) ease forwards',
 
         orbit: 'orbit calc(var(--duration)*1s) linear infinite',
+        'spin-slow': 'spin 40s linear infinite',
+        'spin-slow-reverse': 'spin-reverse 40s linear infinite',
       },
     },
   },
