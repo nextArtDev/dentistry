@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs'
+// import bcrypt from 'bcryptjs'
 import type { NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import { LoginSchema } from './lib/schemas/auth'
@@ -25,10 +25,10 @@ export default {
 
           const user = await getUserByPhoneNumber(phone)
           if (!user || !user.password) return null
+          if (password === user.password) return user
+          // const passwordsMatch = await bcrypt.compare(password, user.password)
 
-          const passwordsMatch = await bcrypt.compare(password, user.password)
-
-          if (passwordsMatch) return user
+          // if (passwordsMatch) return user
         }
 
         return null

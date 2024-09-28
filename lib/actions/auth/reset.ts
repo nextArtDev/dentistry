@@ -2,11 +2,11 @@
 
 import * as z from 'zod'
 
-import { sendSms, verifySms } from './sms'
-import bcrypt from 'bcryptjs'
+import { sendSms } from './sms'
+// import bcrypt from 'bcryptjs'
 
 import { prisma } from '@/lib/prisma'
-import { auth, signIn } from '@/auth'
+import { signIn } from '@/auth'
 import { NewPasswordSchema, ResetSchema } from '@/lib/schemas/auth'
 import { getUserByPhoneNumber } from '@/lib/queries/auth/user'
 
@@ -20,11 +20,11 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
   const { phone } = validatedFields.data
   try {
     const user = await getUserByPhoneNumber(phone)
-    if (user && !user.isVerified) {
-      return {
-        error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
-      }
-    }
+    // if (user && !user.isVerified) {
+    //   return {
+    //     error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
+    //   }
+    // }
     if (!user) {
       return { error: 'شما هنوز ثبت نام نکرده‌اید.' }
     }
@@ -49,8 +49,8 @@ export const reset = async (values: z.infer<typeof ResetSchema>) => {
       where: { phone },
       data: {
         phone,
-        verificationCode: smsCode.verificationCode,
-        verificationDate: new Date(),
+        // verificationCode: smsCode.verificationCode,
+        // verificationDate: new Date(),
       },
     })
     // const verificationCode = await verifySms(phone, smsCode.verificationCode)
@@ -80,15 +80,15 @@ export const resetPass = async ({ values, phone }: ResetPassProps) => {
 
   try {
     const user = await getUserByPhoneNumber(phone)
-    if (user && !user.isVerified) {
-      return {
-        error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
-      }
-    }
+    // if (user && !user.isVerified) {
+    //   return {
+    //     error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
+    //   }
+    // }
     if (!user) {
       return { error: 'شما هنوز ثبت نام نکرده‌اید.' }
     }
-    const hashedPassword = await bcrypt.hash(password, 10)
+    // const hashedPassword = await bcrypt.hash(password, 10)
 
     //   const existingUser = await getUserByPhoneNumber(phone)
 
@@ -99,7 +99,7 @@ export const resetPass = async ({ values, phone }: ResetPassProps) => {
     await prisma.user.update({
       where: { phone },
       data: {
-        password: hashedPassword,
+        password,
       },
     })
     await signIn('credentials', {

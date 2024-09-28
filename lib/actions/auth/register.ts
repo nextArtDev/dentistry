@@ -3,7 +3,7 @@
 import * as z from 'zod'
 import { signIn } from '@/auth'
 import { sendSms, verifySms } from './sms'
-import bcrypt from 'bcryptjs'
+// import bcrypt from 'bcryptjs'
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes'
 
 import { prisma } from '@/lib/prisma'
@@ -21,11 +21,11 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const { phone, password, name } = validatedFields.data
   // console.log(validatedFields.data)
   const user = await getUserByPhoneNumber(phone)
-  if (user && !user.isVerified) {
-    return {
-      error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
-    }
-  }
+  // if (user && !user.isVerified) {
+  //   return {
+  //     error: 'شما قبلا ثبت نام کرده‌اید، لطفا به قسمت فعالسازی اکانت بروید.',
+  //   }
+  // }
   if (user) {
     return { error: 'شما قبلا ثبت نام کرده‌اید.' }
   }
@@ -42,7 +42,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   // console.log(smsCode?.success, smsCode?.verificationCode)
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  // const hashedPassword = await bcrypt.hash(password, 10)
 
   const existingUser = await getUserByPhoneNumber(phone)
 
@@ -54,9 +54,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
     data: {
       name,
       phone,
-      password: hashedPassword,
-      verificationCode: smsCode.verificationCode,
-      verificationDate: new Date(),
+      password,
+      // verificationCode: smsCode.verificationCode,
+      // verificationDate: new Date(),
     },
   })
   // const verificationCode = await verifySms(phone, smsCode.verificationCode)
