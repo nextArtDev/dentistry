@@ -70,6 +70,9 @@ export const BtnList = [
   { label: 'About', link: '/about', icon: 'about', newTab: false },
   { label: 'Projects', link: '/projects', icon: 'projects', newTab: false },
   { label: 'Contact', link: '/contact', icon: 'contact', newTab: false },
+  { label: 'About', link: '/about', icon: 'about', newTab: false },
+  // { label: 'Projects', link: '/projects', icon: 'projects', newTab: false },
+  { label: 'Contact', link: '/contact', icon: 'contact', newTab: false },
   {
     label: 'Github',
     link: 'https://www.github.com/codebucks27',

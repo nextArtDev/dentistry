@@ -19,6 +19,7 @@ import TeamAnimatedBeam from '@/components/beam/TeamAnimatedBeam'
 import RotatingNavigation from '@/components/rotaing-ill/rotating-nav'
 import RenderModel from '@/components/rotaing-ill/render-model'
 import Model from '@/components/Model'
+import Rotating from '@/components/rotaing-ill/rotating'
 
 // const cardData = {
 //   title: 'Amazing Product',
@@ -54,14 +55,15 @@ export default function Home() {
       </section> */}
       <Highlights />
 
-      <section dir="ltr" className="relative my-20">
+      <section dir="ltr" className="relative  ">
         <ImageCarousel />
       </section>
-      <section className="relative mx-auto overflow-hidden w-full h-screen">
-        <RotatingNavigation />
-        <RenderModel className="w-32">
+      <section className="relative min-h-[50vh] overflow-hidden flex items-center justify-center">
+        {/* <RotatingNavigation /> */}
+        <Rotating />
+        {/* <RenderModel className="w-32">
           <Model />
-        </RenderModel>
+        </RenderModel> */}
       </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
         {/* <CompareSlider

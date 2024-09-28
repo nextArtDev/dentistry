@@ -68,7 +68,10 @@ const NavButton = ({
     <div>
       <div
         className="absolute cursor-pointer z-50"
-        style={{ transform: `translate(${x}, ${y})` }}
+        style={{
+          transform: `translate(-50%, -50%) translate(${x}, ${y})`,
+          transformOrigin: 'center',
+        }}
       >
         <NavLink
           variants={item}
@@ -87,7 +90,7 @@ const NavButton = ({
 
             <span className="peer bg-transparent absolute top-0 left-0 w-full h-full" />
 
-            <span className="absolute hidden peer-hover:block px-2 py-1 left-full mx-2 top-1/2 -translate-y-1/2 bg-background text-foreground text-sm rounded-md shadow-lg whitespace-nowrap">
+            <span className="absolute hidden peer-hover:block px-2 py-1 left-full mx-2 top-1/2 -translate-y-1/2 bg-background  origin-center text-foreground text-sm rounded-md shadow-lg whitespace-nowrap">
               {label}
             </span>
           </span>

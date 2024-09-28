@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 // دندان مصنوعی، ایمپلنت، روکش دندان، ارتودنسی، ترمیم دندان، جراحی لثه، دندانپزشکی زیبایی
 export default function Orbiting() {
   return (
-    <div className="relative flex h-[400px] w-full flex-col items-center justify-center overflow-hidden md:shadow-xl">
+    <div className="relative   flex h-[400px] w-full flex-col items-center justify-center overflow-hidden md:shadow-xl">
       {/* <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-black">
         Circles
       </span> */}

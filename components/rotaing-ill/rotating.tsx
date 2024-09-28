@@ -1,18 +1,20 @@
 'use client'
 
+import MorphingCard from '../morphing-card'
+import RotatingCircles from '../RotatingCircles'
 // import bg from '@/public/background/home-bg.webp'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
+// import dynamic from 'next/dynamic'
+// import Image from 'next/image'
+// import RenderModel from './render-model'
 import RotatingNavigation from './rotating-nav'
-import RenderModel from './render-model'
 
-const Model = dynamic(() => import('@/components/Model'), {
-  ssr: false,
-})
+// const Model = dynamic(() => import('@/components/Model'), {
+//   ssr: false,
+// })
 
 export default function Rotating() {
   return (
-    <section className="mx-auto  flex w-full     relative">
+    <section className="mx-auto bg-white/70 flex w-full  h-[50vh]   relative">
       {/* <Image
         priority
         sizes="100vw"
@@ -21,9 +23,13 @@ export default function Rotating() {
         fill
         className="-z-50 w-full h-full object-cover object-center opacity-50"
       /> */}
+      {/* <RotatingNavigation /> */}
 
-      <RotatingNavigation />
+      <RotatingCircles />
 
+      {/* <section className="absolute   w-fit h-fit top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2">
+        
+      </section> */}
       {/* <RenderModel className=" ">
         <Model />
       </RenderModel> */}
