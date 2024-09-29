@@ -12,10 +12,11 @@ export const createUserSchema = z.object({
     //   message: 'شماره موبایل معتبر نیست.',
     // })
     .optional(),
-  password: z.number(),
+  password: z.string(),
   // .min(1, { message: 'این قسمت نمی‌تواند خالی باشد' })
   // .optional(),
   gender: z.string().optional(),
+  bio: z.string().optional(),
   // open_time: z.array(
   //   z
   //     .string()
@@ -52,7 +53,7 @@ export const createPersonnelSchema = z.object({
   images: z.any().optional(),
 })
 
-export const createIllnessSchema = z.object({
+export const createTimelineSchema = z.object({
   name: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
   description: z.string().optional(),
 

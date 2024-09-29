@@ -48,9 +48,9 @@ export function MainNav({
       active: pathname === `/dashboard/specialization`,
     },
     {
-      href: `/dashboard/doctors`,
-      label: 'دکترها',
-      active: pathname === `/dashboard/doctors`,
+      href: `/dashboard/users`,
+      label: 'کاربرها',
+      active: pathname === `/dashboard/users`,
     },
     {
       href: `/dashboard/illness`,

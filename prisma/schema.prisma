@@ -21,7 +21,7 @@ model User {
   afterImageId   String? @unique
   role           Role    @default(USER)
   gender         String?
-
+  bio            String?
   // verificationCode Int?
   // verificationDate DateTime?
   // isVerified Boolean @default(false)

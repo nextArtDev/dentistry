@@ -4,43 +4,53 @@ import { prisma } from '@/lib/prisma'
 import {
   createDoctorSchema,
   createSpecializationSchema,
+  createUserSchema,
 } from '@/lib/schemas/dashboard'
-import { DateTag, Doctor, Specialization } from '@prisma/client'
+import { DateTag, Doctor, Specialization, User } from '@prisma/client'
 import { deleteFileFromS3, uploadFileToS3 } from '../s3Upload'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import sharp from 'sharp'
 
-interface CreateDoctorFormState {
+interface CreateUserFormState {
   // success?: string
   errors: {
+    // name?: string[]
+    // description?: string[]
+    // phone?: string[]
+    // // price?: string[]
+    // website?: string[]
+
+    // open_time?: string[]
+    // specializationId?: string[]
+
+    // images?: string[]
     name?: string[]
-    description?: string[]
     phone?: string[]
-    // price?: string[]
-    website?: string[]
-
-    open_time?: string[]
-    specializationId?: string[]
-
-    images?: string[]
+    password?: string[]
+    bio?: string[]
+    gender?: string[]
+    profileImage?: string[]
+    beforeImage?: string[]
+    afterImage?: string[]
     _form?: string[]
   }
 }
 
-export async function createDoctor(
+export async function createUser(
   formData: FormData,
   path: string
-): Promise<CreateDoctorFormState> {
-  const result = createDoctorSchema.safeParse({
+): Promise<CreateUserFormState> {
+  const result = createUserSchema.safeParse({
     name: formData.get('name'),
     phone: formData.get('phone'),
     // price: formData.get('price'),
-    website: formData.get('website'),
-    description: formData.get('description'),
-    images: formData.getAll('images'),
-    open_time: formData.getAll('open_time'),
-    specializationId: formData.getAll('specializationId'),
+    password: formData.get('password'),
+    bio: formData.get('bio'),
+    gender: formData.getAll('gender'),
+    profileImage: formData.getAll('profileImage'),
+    beforeImage: formData.getAll('beforeImage'),
+    afterImage: formData.getAll('afterImage'),
   })
   if (!result.success) {
     console.log(result.error.flatten().fieldErrors)
@@ -61,9 +71,9 @@ export async function createDoctor(
 
   // console.log(result)
 
-  let doctor: Doctor
+  let user: User
   try {
-    const isExisting = await prisma.doctor.findFirst({
+    const isExisting = await prisma.user.findFirst({
       where: {
         name: result.data.name,
       },
@@ -88,7 +98,7 @@ export async function createDoctor(
       }
     }
 
-    doctor = await prisma.doctor.create({
+    user = await prisma.user.create({
       data: {
         name: result.data.name,
         phone: result.data.phone,
@@ -152,35 +162,34 @@ export async function createDoctor(
   revalidatePath(path)
   redirect(`/dashboard/doctors`)
 }
-interface EditDoctorFormState {
+interface EditUserFormState {
   errors: {
     name?: string[]
-    description?: string[]
     phone?: string[]
-    // price?: string[]
-    website?: string[]
-
-    open_time?: string[]
-    specializationId?: string[]
-
-    images?: string[]
+    password?: string[]
+    bio?: string[]
+    gender?: string[]
+    profileImage?: string[]
+    beforeImage?: string[]
+    afterImage?: string[]
     _form?: string[]
   }
 }
-export async function editDoctor(
+export async function editUser(
   formData: FormData,
-  doctorId: string,
+  userId: string,
   path: string
-): Promise<EditDoctorFormState> {
-  const result = createDoctorSchema.safeParse({
+): Promise<EditUserFormState> {
+  const result = createUserSchema.safeParse({
     name: formData.get('name'),
     phone: formData.get('phone'),
     // price: formData.get('price'),
-    website: formData.get('website'),
-    description: formData.get('description'),
-    images: formData.getAll('images'),
-    open_time: formData.getAll('open_time'),
-    specializationId: formData.getAll('specializationId'),
+    password: formData.get('password'),
+    bio: formData.get('bio'),
+    gender: formData.getAll('gender'),
+    profileImage: formData.getAll('profileImage'),
+    beforeImage: formData.getAll('beforeImage'),
+    afterImage: formData.getAll('afterImage'),
   })
 
   // console.log(result)
@@ -207,8 +216,8 @@ export async function editDoctor(
       | (Doctor & {
           images: { id: string; key: string }[] | null
         } & { specialization: Specialization[] } & { open_time: DateTag[] })
-      | null = await prisma.doctor.findFirst({
-      where: { id: doctorId },
+      | null = await prisma.user.findFirst({
+      where: { id: userId },
       include: {
         images: { select: { id: true, key: true } },
         specialization: true,
@@ -222,11 +231,11 @@ export async function editDoctor(
         },
       }
     }
-    const isNameExisting = await prisma.doctor.findFirst({
+    const isNameExisting = await prisma.user.findFirst({
       where: {
         name: result.data.name,
 
-        NOT: { id: doctorId },
+        NOT: { id: userId },
       },
     })
 
@@ -238,9 +247,9 @@ export async function editDoctor(
       }
     }
 
-    await prisma.doctor.update({
+    await prisma.user.update({
       where: {
-        id: doctorId,
+        id: userId,
       },
       data: {
         specialization: {

@@ -1,12 +1,12 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Image, User } from '@prisma/client'
+import { Image, TimeLine, User } from '@prisma/client'
 import { usePathname } from 'next/navigation'
 
 import { FC, KeyboardEvent, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { AlertModal } from '../../../../../../../components/dashboard/AlertModal'
+import { AlertModal } from '../../../../../../../../components/dashboard/AlertModal'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { Plus, Trash, UploadCloud } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
@@ -48,11 +48,11 @@ import {
 import Link from 'next/link'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
-type UserFormValues = z.infer<typeof createUserSchema>
+type TimelineFormValues = z.infer<typeof createTimelineSchema>
 
-interface UserFormProps {
-  initialData: User & { profileImag: { url: string } | null } & {
-    beforeImage: { url: string } | null
+interface TimelineFormProps {
+  initialData: TimeLine & { profileImag: { url: string } | null } & {
+    images: { url: string }[] | null
   } & {
     afterImag: { url: string } | null
   }
@@ -64,7 +64,7 @@ interface UserFormProps {
   // specialization: Specialization[]
 }
 
-const UserForm: FC<UserFormProps> = ({ initialData }) => {
+const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
   const [files, setFiles] = useState('')
   const [beforeFiles, setBeforeFiles] = useState('')
   const [afterFiles, setAfterFiles] = useState('')
@@ -111,12 +111,12 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
         // specializationId: [],
       }
 
-  const form = useForm<UserFormValues>({
+  const form = useForm<TimelineFormValues>({
     resolver: zodResolver(createUserSchema),
     defaultValues,
   })
 
-  const onSubmit = async (data: UserFormValues) => {
+  const onSubmit = async (data: TimelineFormValues) => {
     const formData = new FormData()
 
     formData.append('name', data.name)
@@ -340,7 +340,7 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
               <Trash className="h-4 w-4" />
             </Button>
             <Link
-              href={`/dashboard/${initialData.id}/new`}
+              href={'/'}
               className={cn(
                 buttonVariants({ variant: 'default', size: 'sm' }),
                 'flex items-center justify-center gap-1'
@@ -669,4 +669,4 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
   )
 }
 
-export default UserForm
+export default TimelineForm

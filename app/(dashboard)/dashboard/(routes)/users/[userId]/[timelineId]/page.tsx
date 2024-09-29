@@ -1,20 +1,25 @@
 import React from 'react'
 
 import { prisma } from '@/lib/prisma'
-import DoctorForm from './components/UserForm'
-import UserForm from './components/UserForm'
+import DoctorForm from './components/TimelineForm'
+import UserForm from './components/TimelineForm'
 import { notFound } from 'next/navigation'
+import TimelineForm from './components/TimelineForm'
 
-const UserPage = async ({ params }: { params: { userId: string } }) => {
+const UserPage = async ({
+  params,
+}: {
+  params: { userId: string; timelineId: string }
+}) => {
   const user = await prisma.user.findUnique({
     where: {
       id: params.userId,
     },
     //Because array of images is separate model we have to include it, because we want row of url's not array of id's
     include: {
-      afterImage: { select: { url: true } },
-      beforeImage: { select: { url: true } },
-      profileImage: { select: { url: true } },
+      // afterImage: { select: { url: true } },
+      // beforeImage: { select: { url: true } },
+      // profileImage: { select: { url: true } },
       // images: true,
       // bookings: true,
       // specialization: true,
@@ -22,16 +27,17 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
     },
   })
   if (!user) return notFound()
-  // const specialization = await prisma.specialization.findMany({
-  //   // where: {
-  //   //   doctors: { some: { id: params.doctorId } },
-  //   // },
-  // })
+  const timelines = await prisma.timeLine.findMany({
+    where: {
+      id: params.timelineId,
+      userId: params.userId,
+    },
+  })
 
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <UserForm initialData={user} />
+        <TimelineForm initialData={timelines} />
       </div>
     </div>
   )
