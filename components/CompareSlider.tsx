@@ -14,6 +14,7 @@ interface CompareSliderProps {
   before: StaticImageData
   after: StaticImageData
   disease: string
+  disableHandle?: boolean
   className?: string
 }
 const CompareSlider = ({
@@ -21,6 +22,7 @@ const CompareSlider = ({
   before,
   after,
   disease,
+  disableHandle = false,
   className,
 }: CompareSliderProps) => {
   const containerRef = useRef(null)
@@ -99,6 +101,9 @@ const CompareSlider = ({
             />
           }
         />
+        {disableHandle && (
+          <div className="absolute inset-0 bg-transparent z-[1]  "></div>
+        )}
       </div>
     </div>
   )

@@ -45,6 +45,24 @@ body {
   .custom-bg {
     @apply bg-background/20 border border-accent/30 border-solid backdrop-blur-[6px] shadow-glass-inset hover:shadow-glass-sm;
   }
+  .gradient-base {
+    @apply bg-gradient-to-t from-[#FFB6C1] via-[#ADD8E6] to-[#FFF8DC];
+  }
+  .title-color {
+    @apply drop-shadow-[0_1.6px_1.6px_rgba(0,0,0,0.8)] font-bold bg-gradient-to-r from-[#30e8bf] via-[#e96f18]  to-[#30e8bf] bg-clip-text text-transparent;
+  }
+  .number-color {
+    @apply drop-shadow-[0_1.6px_1.6px_rgba(0,0,0,0.8)] font-bold bg-gradient-to-r from-[#FFF8DC] via-black/80  to-[#30e8bf] bg-clip-text text-transparent;
+  }
+  .sub-title-color {
+    @apply drop-shadow-[0_1.2px_1.2px_rgba(0,0,0,0.8)] font-bold bg-gradient-to-r to-[#FFF8DC] from-[#e96f18]  via-[#30e8bf] bg-clip-text text-transparent;
+  }
+  .gradient-base-r {
+    @apply bg-gradient-to-t from-[#FFF8DC] via-[#ADD8E6] to-[#FFB6C1];
+  }
+  .glass {
+    @apply custom-box-shadow backdrop-blur-md  bg-white/30;
+  }
 }
 @keyframes move {
   0% {

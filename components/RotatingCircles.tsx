@@ -1,4 +1,5 @@
 import { Circle } from './beam/AnimatedBeamDemo'
+import { BorderBeam } from './BorderBeam'
 import MorphingCard from './morphing-card'
 import OrbitingCircles from './OrbittingCircles'
 import { ReactNode } from 'react'
@@ -6,7 +7,7 @@ import { ReactNode } from 'react'
 // دندان مصنوعی، ایمپلنت، روکش دندان، ارتودنسی، ترمیم دندان، جراحی لثه، دندانپزشکی زیبایی
 export default function RotatingCircles() {
   return (
-    <div className="relative group flex h-full w-full flex-col items-center justify-center overflow-hidden md:shadow-xl">
+    <div className="relative group flex h-full w-full flex-col items-center justify-center overflow-hidden md:shadow-xl ">
       <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-black">
         <MorphingCard
           width="200px"
@@ -36,7 +37,7 @@ export default function RotatingCircles() {
 
       <OrbitingCircles
         path={false}
-        className="group-hover:pause z-[2] size-[30px] border-none bg-transparent"
+        className="text-white  group-hover:pause z-[2] size-[30px] border-none bg-transparent"
         duration={40}
         delay={0}
         radius={150}
@@ -50,7 +51,7 @@ export default function RotatingCircles() {
       </OrbitingCircles>
       <OrbitingCircles
         path={false}
-        className="group-hover:pause z-[2] size-[30px] border-none bg-transparent"
+        className="text-white group-hover:pause z-[2] size-[30px] border-none bg-transparent"
         duration={40}
         delay={5}
         radius={150}
@@ -64,7 +65,7 @@ export default function RotatingCircles() {
       </OrbitingCircles>
       <OrbitingCircles
         path={false}
-        className="group-hover:pause z-[2] size-[30px] border-none bg-transparent"
+        className="text-white group-hover:pause z-[2] size-[30px] border-none bg-transparent"
         duration={40}
         delay={10}
         radius={150}
@@ -79,7 +80,7 @@ export default function RotatingCircles() {
 
       <OrbitingCircles
         path={false}
-        className="group-hover:pause z-[2] size-[50px] border-none bg-transparent"
+        className="text-white group-hover:pause z-[2] size-[50px] border-none bg-transparent"
         radius={150}
         duration={40}
         delay={15}
@@ -93,7 +94,7 @@ export default function RotatingCircles() {
       </OrbitingCircles>
       <OrbitingCircles
         path={false}
-        className="group-hover:pause z-[2] size-[50px] border-none bg-transparent"
+        className="text-white group-hover:pause z-[2] size-[50px] border-none bg-transparent"
         radius={150}
         duration={40}
         delay={20}

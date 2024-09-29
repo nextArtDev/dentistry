@@ -79,12 +79,12 @@ export const ImageCarousel = () => {
       animate={carouselVariant}
       className="bg-gradient-to-t from-white to-#FC898B pb-16 z-0 "
     >
-      <div ref={carouselWrapperRef} className=" h-[250vh] overflow-clip">
+      <div ref={carouselWrapperRef} className=" h-[200vh] overflow-clip">
         <div className="sticky top-0 flex h-screen items-center">
           <div className="relative left-1/2 mb-5 flex -translate-x-1/2 gap-5">
             <motion.div
               style={{ opacity: postersOpacity, x: posterTranslateXLeft }}
-              className="relative aspect-[9/16] w-[300px] shrink-0 overflow-clip rounded-2xl md:aspect-video md:w-[60vw]"
+              className="relative aspect-[9/16] w-[200px] shrink-0 overflow-clip rounded-2xl md:aspect-video md:w-[60vw]"
             >
               <Image
                 fill
@@ -110,7 +110,7 @@ export const ImageCarousel = () => {
                 }}
                 className="absolute bottom-0 left-0 flex w-full flex-col items-center gap-4 p-5 text-lg text-white md:flex-row md:justify-between md:gap-0"
               >
-                <p>بهترین خاطرات شما</p>
+                {/* <p>بهترین خاطرات  </p> */}
                 <Button>دیدن</Button>
               </motion.div>
             </motion.div>
@@ -167,7 +167,7 @@ const SmallImageCarousel = ({ movies }: { movies: RandomMovie[] }) => {
               secondImage={movie.afterImgSrc}
               firstImageClassName="object-cover  "
               secondImageClassname="object-cover  "
-              className="h-[20vh] w-[40vw] shrink-0 md:w-[23vw]"
+              className="h-[10vh] md:h-[15vh] w-[40vw] shrink-0 md:w-[23vw]"
               // className="rounded-2xl "
               slideMode="hover"
               showHandlebar={false}

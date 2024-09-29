@@ -84,7 +84,7 @@ const TeamAnimatedBeam = () => {
 
   return (
     <div
-      className="relative flex h-auto w-full items-center justify-center overflow-hidden rounded-lg  bg-background p-4 md:shadow-xl"
+      className="relative flex h-auto w-full items-center justify-center overflow-hidden rounded-lg  bg-white/10 p-4 md:shadow-xl"
       ref={containerRef}
     >
       <div className="flex size-full flex-col max-w-lg  items-stretch justify-between gap-10">

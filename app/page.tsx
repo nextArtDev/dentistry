@@ -53,17 +53,17 @@ export default function Home() {
       {/* <section>
         <Team />
       </section> */}
-      <Highlights />
-
-      <section dir="ltr" className="relative  ">
-        <ImageCarousel />
-      </section>
       <section className="relative min-h-[50vh] overflow-hidden flex items-center justify-center">
         {/* <RotatingNavigation /> */}
         <Rotating />
         {/* <RenderModel className="w-32">
           <Model />
         </RenderModel> */}
+      </section>
+      <Highlights />
+
+      <section dir="ltr" className="relative  ">
+        <ImageCarousel />
       </section>
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
         {/* <CompareSlider
@@ -73,24 +73,28 @@ export default function Home() {
           index={1}
         /> */}
         <CompareSlider
+          disableHandle={true}
           before={BOrtodensi}
           after={AOrtodensi}
           disease="ارتودنسی"
           index={0}
         />
         <CompareSlider
+          disableHandle={true}
           before={BTarmim}
           after={ATarmim}
           disease="ترمیم"
           index={1}
         />
         <CompareSlider
+          disableHandle={true}
           before={BJermgiri}
           after={AJermgiri}
           disease="جرمگیری"
           index={0}
         />
         <CompareSlider
+          disableHandle={true}
           before={BMasnoei}
           after={AMasnoei}
           disease="دندان مصنوعی"
