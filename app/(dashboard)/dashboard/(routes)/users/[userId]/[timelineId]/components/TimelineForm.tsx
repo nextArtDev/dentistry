@@ -54,6 +54,7 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns-jalali'
 import { createTimeline, editTimeline } from '@/lib/actions/dashboard/timeline'
+import { specializations } from '@/constants'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
 type TimelineFormValues = z.infer<typeof createTimelineSchema>
@@ -64,11 +65,11 @@ interface TimelineFormProps {
         images: { url: string }[] | null
       } & { specializationTag: SpecializationTag[] | null })
     | null
-
+  userId: string
   // specialization: Specialization[]
 }
 
-const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
+const TimelineForm: FC<TimelineFormProps> = ({ initialData, userId }) => {
   const [files, setFiles] = useState<File[]>([])
 
   // const [modal, setModal] = useState('')
@@ -117,13 +118,14 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
       }
 
   const form = useForm<TimelineFormValues>({
-    resolver: zodResolver(createUserSchema),
+    resolver: zodResolver(createTimelineSchema),
     defaultValues,
   })
 
   const onSubmit = async (data: TimelineFormValues) => {
     const formData = new FormData()
 
+    // formData.append('date', data.date)
     formData.append('date', format(data.date, 'yyyy/MM/dd'))
     formData.append('description', data.description || '')
 
@@ -148,7 +150,12 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
       if (initialData) {
         // console.log({ data, initialData })
         startTransition(() => {
-          editTimeline(formData, initialData.id as string, path)
+          editTimeline(
+            formData,
+            initialData.id as string,
+            userId as string,
+            path
+          )
             .then((res) => {
               if (res?.errors?.date) {
                 form.setError('date', {
@@ -181,7 +188,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
         })
       } else {
         startTransition(() => {
-          createTimeline(formData, path)
+          createTimeline(formData, path, userId as string)
             .then((res) => {
               if (res?.errors?.date) {
                 form.setError('date', {
@@ -250,6 +257,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
       : (files
           .map((file) => URL.createObjectURL(file))
           .filter(Boolean) as string[])
+
   const [deleteState, deleteAction] = useFormState(
     deleteDoctor.bind(null, path, initialData?.id as string),
     {
@@ -349,7 +357,6 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
 
                     {/* <FormMessage className="dark:text-rose-400" /> */}
                     <FormMessage>
-                      {/* @ts-ignore */}
                       {form.getFieldState('images')?.error?.message}
                     </FormMessage>
                   </FormItem>
@@ -394,7 +401,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
                         //   setModal(format(date, 'yyyy/MM/dd'))
                         // }
                         disabled={(date) =>
-                          date <= new Date() || date < new Date('1900-01-01')
+                          date < new Date() || date < new Date('1900-01-01')
                         }
                         dir="rtl"
                         // locale={faIR}
@@ -429,43 +436,29 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
               control={form.control}
               name="specializationTag"
               render={({ field }) => (
-                <FormItem className="flex w-fit flex-col">
-                  <FormLabel>نام بیماریها</FormLabel>
-                  <FormControl className="mt-3.5">
-                    <>
-                      <Input
-                        className="min-h-[56px] "
-                        // {...field}
-                        onKeyDown={(e) => handleInputKeyDown(e, field)}
-                        placeholder="اضافه کردن بیماری"
-                      />
-                      {field.value?.length > 0 && (
-                        <div className="flex-start mt-2.5 gap-2.5">
-                          {field.value?.map((tag: any) => (
-                            <Badge
-                              key={tag}
-                              className=" flex items-center justify-center gap-2 rounded-md border-none bg-slate-400 px-4 py-2 capitalize hover:bg-slate-600 "
-                              onClick={() => handleTagRemove(tag, field)}
-                            >
-                              {tag}
+                <FormItem>
+                  <FormLabel>
+                    تخصص <span className="text-rose-500">*</span>
+                  </FormLabel>
+                  <MultiSelect
+                    options={specializations.map((special) => ({
+                      value: special.id,
+                      label: special.name,
+                    }))}
+                    onValueChange={(data) => field.onChange(data)}
+                    defaultValue={
+                      // initialData ? defaultValues.specializationId : []
+                      []
+                    }
+                    placeholder="انتخاب تخصص"
+                    variant="inverted"
+                    animation={2}
+                    maxCount={3}
+                  />
 
-                              <NextImage
-                                src={'/icons/close.svg'}
-                                alt="Close icon"
-                                width={12}
-                                height={12}
-                                className="cursor-pointer object-contain invert-0 "
-                              />
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                    </>
-                  </FormControl>
-                  <FormDescription className="mt-2.5">
-                    نام را وارد سپس اینتر بزنید.
-                  </FormDescription>
-                  <FormMessage className="text-red-500" />
+                  <FormMessage>
+                    {form.getFieldState('specializationTag')?.error?.message}
+                  </FormMessage>
                 </FormItem>
               )}
             />

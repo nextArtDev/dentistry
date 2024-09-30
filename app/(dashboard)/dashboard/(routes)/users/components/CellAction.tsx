@@ -58,6 +58,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           >
             <Edit className="ml-2 h-4 w-4" /> آپدیت
           </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() => router.push(`/dashboard/users/${data.id}/new`)}
+          >
+            <Edit className="ml-2 h-4 w-4" /> ایجاد ویزیت
+          </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="ml-2 h-4 w-4" /> حذف
           </DropdownMenuItem>

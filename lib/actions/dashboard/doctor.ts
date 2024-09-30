@@ -70,7 +70,7 @@ export async function createUser(
 
   // console.log(result)
   const gender = result.data.gender === '2' ? 'زن' : 'مرد'
-  console.log('result.data', result.data)
+  // console.log('result.data', result.data)
   let user: User
   try {
     const isExisting = await prisma.user.findFirst({

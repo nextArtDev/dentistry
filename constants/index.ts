@@ -98,3 +98,14 @@ export const BtnList = [
     newTab: true,
   },
 ] as const
+
+export const specializations = [
+  { id: '1', name: 'کشیدن' },
+  { id: '2', name: 'عصب کشی' },
+  { id: '3', name: 'ایمپلنت' },
+  { id: '4', name: 'جرم گیری' },
+  { id: '5', name: 'ترمیم' },
+  { id: '6', name: 'روکش' },
+  { id: '7', name: 'دندان‌مصنوعی' },
+  { id: '8', name: 'ارتودنسی' },
+] as const

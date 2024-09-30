@@ -41,7 +41,7 @@ const UserPage = async ({
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <TimelineForm initialData={timelines} />
+        <TimelineForm initialData={timelines} userId={user.id} />
       </div>
     </div>
   )

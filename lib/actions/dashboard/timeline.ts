@@ -3,6 +3,7 @@ import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
 import {
   createDoctorSchema,
+  createServerTimelineSchema,
   createSpecializationSchema,
   createTimelineSchema,
   createUserSchema,
@@ -27,11 +28,13 @@ interface CreateTimelineFormState {
 
 export async function createTimeline(
   formData: FormData,
-  path: string
+  path: string,
+  userId: string
 ): Promise<CreateTimelineFormState> {
-  const result = createTimelineSchema.safeParse({
+  const result = createServerTimelineSchema.safeParse({
     date: formData.get('date'),
     description: formData.get('description'),
+    userId: formData.get('userId'),
 
     images: formData.getAll('images'),
     specializationTag: formData.getAll('specializationTag'),
@@ -42,7 +45,8 @@ export async function createTimeline(
       errors: result.error.flatten().fieldErrors,
     }
   }
-  // console.log(result?.data.description)
+  //   console.log('userId', userId)
+  //   console.log('result?.data', result?.data)
 
   const session = await auth()
   if (!session || !session.user || session.user.role !== 'ADMIN') {
@@ -55,25 +59,25 @@ export async function createTimeline(
 
   // console.log(result)
 
-  let user: User
+  let timeLine: TimeLine
   try {
     const isExisting = await prisma.user.findFirst({
       where: {
-        name: result.data.name,
+        id: userId,
       },
     })
-    if (isExisting) {
+    if (!isExisting) {
       return {
         errors: {
-          _form: ['دکتر با این نام موجود است!'],
+          _form: ['کاربر حذف شده است!'],
         },
       }
     }
     // console.log(isExisting)
-    // console.log(billboard)
+    // console.log('result.data', result.data)
 
-    let imageIds: string[] = []
-    for (let img of result.data?.images || []) {
+    const imageIds: string[] = []
+    for (const img of result.data?.images || []) {
       const buffer = Buffer.from(await img.arrayBuffer())
       const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
       const res = await uploadFileToS3(convertedBuffer, img.name)
@@ -82,49 +86,48 @@ export async function createTimeline(
       }
     }
 
-    user = await prisma.user.create({
+    timeLine = await prisma.timeLine.create({
       data: {
-        name: result.data.name,
-        phone: result.data.phone,
-        // price: +result.data.price,
-        website: result.data.website,
-        description: result?.data.description,
+        date: result.data.date,
+        description: result.data.description,
+
         images: {
           connect: imageIds.map((id) => ({
             id: id,
           })),
         },
-        specialization: {
-          connect: result.data?.specializationId?.map((id: string) => ({
-            id: id,
-          })),
-        },
+        userId,
+        // specialization: {
+        //   connect: result.data?.specializationId?.map((id: string) => ({
+        //     id: id,
+        //   })),
+        // },
       },
     })
-    if (result.data.open_time) {
-      const timeData = []
-      for (const time of result.data.open_time) {
-        const newTimeData = await prisma.dateTag.create({
-          data: {
-            time,
-            doctorId: doctor.id,
-          },
-        })
-        timeData.push(newTimeData.id)
-      }
-      await prisma.doctor.update({
-        where: {
-          id: doctor.id,
-        },
-        data: {
-          open_time: {
-            connect: timeData.map((id: string) => ({
-              id,
-            })),
-          },
-        },
-      })
-    }
+    // if (result.data.open_time) {
+    //   const timeData = []
+    //   for (const time of result.data.open_time) {
+    //     const newTimeData = await prisma.dateTag.create({
+    //       data: {
+    //         time,
+    //         doctorId: doctor.id,
+    //       },
+    //     })
+    //     timeData.push(newTimeData.id)
+    //   }
+    //   await prisma.doctor.update({
+    //     where: {
+    //       id: doctor.id,
+    //     },
+    //     data: {
+    //       open_time: {
+    //         connect: timeData.map((id: string) => ({
+    //           id,
+    //         })),
+    //       },
+    //     },
+    //   })
+    // }
     // console.log(res?.imageUrl)
     // console.log(category)
   } catch (err: unknown) {
@@ -144,7 +147,7 @@ export async function createTimeline(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }
 interface EditTimelineFormState {
   errors: {
@@ -159,7 +162,8 @@ interface EditTimelineFormState {
 export async function editTimeline(
   formData: FormData,
   timelineId: string,
-  path: string
+  path: string,
+  userId: string
 ): Promise<EditTimelineFormState> {
   const result = createTimelineSchema.safeParse({
     date: formData.get('date'),
