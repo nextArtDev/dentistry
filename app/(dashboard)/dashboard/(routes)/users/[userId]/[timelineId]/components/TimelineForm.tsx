@@ -285,7 +285,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData, userId }) => {
               <Trash className="h-4 w-4" />
             </Button>
             <Link
-              href={'/'}
+              href={`/dashboard/users/${userId}/new`}
               className={cn(
                 buttonVariants({ variant: 'default', size: 'sm' }),
                 'flex items-center justify-center gap-1'

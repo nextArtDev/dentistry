@@ -349,7 +349,7 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
               <Trash className="h-4 w-4" />
             </Button>
             <Link
-              href={`/dashboard/${initialData.id}/new`}
+              href={`/dashboard/users/${initialData.id}/new`}
               className={cn(
                 buttonVariants({ variant: 'default', size: 'sm' }),
                 'flex items-center justify-center gap-1'

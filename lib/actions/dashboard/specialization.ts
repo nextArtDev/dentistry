@@ -63,8 +63,8 @@ export async function createSpecialization(
     // console.log(isExisting)
     // console.log(billboard)
 
-    let imageIds: string[] = []
-    for (let img of result.data?.images || []) {
+    const imageIds: string[] = []
+    for (const img of result.data?.images || []) {
       const buffer = Buffer.from(await img.arrayBuffer())
       const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
       const res = await uploadFileToS3(convertedBuffer, img.name)
@@ -82,7 +82,7 @@ export async function createSpecialization(
             id: id,
           })),
         },
-        imageId: imageIds.length > 0 ? imageIds[0] : '',
+        // imageId: imageIds.length > 0 ? imageIds[0] : '',
       },
     })
     // console.log(res?.imageUrl)
@@ -185,8 +185,8 @@ export async function editSpecialization(
       typeof result.data.images[0] === 'object' &&
       result.data.images[0] instanceof File
     ) {
-      let imageIds: string[] = []
-      for (let img of result.data.images) {
+      const imageIds: string[] = []
+      for (const img of result.data.images) {
         const buffer = Buffer.from(await img.arrayBuffer())
         const res = await uploadFileToS3(buffer, img.name)
 
