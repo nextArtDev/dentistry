@@ -27,10 +27,14 @@ const UserPage = async ({
     },
   })
   if (!user) return notFound()
-  const timelines = await prisma.timeLine.findMany({
+  const timelines = await prisma.timeLine.findFirst({
     where: {
       id: params.timelineId,
       userId: params.userId,
+    },
+    include: {
+      specializationTag: true,
+      images: { select: { url: true } },
     },
   })
 

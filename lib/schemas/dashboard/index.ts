@@ -54,22 +54,28 @@ export const createPersonnelSchema = z.object({
 })
 
 export const createTimelineSchema = z.object({
-  name: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
-  description: z.string().optional(),
+  date: z.date({
+    required_error: 'وارد کردن روز الزامی است.',
+  }),
 
+  description: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
   images: z.any().optional(),
+
+  specializationTag: z.array(
+    z
+      .string()
+      .min(1, {
+        message: 'تگ باید حداقل 1 حرف باشد.',
+      })
+      .max(35, {
+        message: 'تگ نمی‌تواند بیش از 35 حرف باشد.',
+      })
+  ),
+
   // .array()  satisfies Prisma.ImagesUncheckedCreateNestedManyWithoutDoctorInput,
   // booking: z.object({ booking_time: z.date() }).array().optional(),
   //Because we're working with Decimal, we should add "coerce"
-  specializationId: z
-    .array(z.string())
-    .min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
-  doctorId: z.array(
-    z.string().nonempty({
-      message: 'این قسمت نمی‌تواند خالی باشد',
-    })
-  ),
-}) satisfies z.Schema<Prisma.IllnessUncheckedCreateInput>
+}) satisfies z.Schema<Prisma.TimeLineUncheckedCreateInput>
 
 export const createSpecializationSchema = z.object({
   name: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
