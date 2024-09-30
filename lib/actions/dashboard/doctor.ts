@@ -44,13 +44,12 @@ export async function createUser(
   const result = createUserSchema.safeParse({
     name: formData.get('name'),
     phone: formData.get('phone'),
-    // price: formData.get('price'),
     password: formData.get('password'),
     bio: formData.get('bio'),
-    gender: formData.getAll('gender'),
-    profileImage: formData.getAll('profileImage'),
-    beforeImage: formData.getAll('beforeImage'),
-    afterImage: formData.getAll('afterImage'),
+    gender: formData.get('gender'),
+    profileImage: formData.get('profileImage'),
+    beforeImage: formData.get('beforeImage'),
+    afterImage: formData.get('afterImage'),
   })
   if (!result.success) {
     console.log(result.error.flatten().fieldErrors)
@@ -70,77 +69,104 @@ export async function createUser(
   }
 
   // console.log(result)
-
+  const gender = result.data.gender === '2' ? 'زن' : 'مرد'
+  console.log('result.data', result.data)
   let user: User
   try {
     const isExisting = await prisma.user.findFirst({
       where: {
-        name: result.data.name,
+        password: result.data.password,
       },
     })
     if (isExisting) {
       return {
         errors: {
-          _form: ['دکتر با این نام موجود است!'],
+          _form: ['کاربر با این کدملی موجود است!'],
         },
       }
     }
     // console.log(isExisting)
     // console.log(billboard)
 
-    let imageIds: string[] = []
-    for (let img of result.data?.images || []) {
-      const buffer = Buffer.from(await img.arrayBuffer())
-      const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
-      const res = await uploadFileToS3(convertedBuffer, img.name)
-      if (res?.imageId && typeof res.imageId === 'string') {
-        imageIds.push(res.imageId)
-      }
-    }
+    const buffer = Buffer.from(await result.data?.profileImage?.arrayBuffer())
+    const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
+    const res = await uploadFileToS3(
+      convertedBuffer,
+      result.data?.profileImage?.name
+    )
+    const beforeImageBuffer = Buffer.from(
+      await result.data?.beforeImage?.arrayBuffer()
+    )
+    const convertedBeforeImageBuffer = await sharp(beforeImageBuffer)
+      .webp({ effort: 6 })
+      .toBuffer()
+    const beforeImageRes = await uploadFileToS3(
+      convertedBeforeImageBuffer,
+      result.data?.beforeImage?.name
+    )
+    const afterImageBuffer = Buffer.from(
+      await result.data?.afterImage?.arrayBuffer()
+    )
+    const convertedAfterImageBuffer = await sharp(afterImageBuffer)
+      .webp({ effort: 6 })
+      .toBuffer()
+    const afterImageRef = await uploadFileToS3(
+      convertedAfterImageBuffer,
+      result.data?.profileImage?.name
+    )
+
+    // let imageIds: string[] = []
+    // for (let img of result.data?.images || []) {
+    //   const buffer = Buffer.from(await img.arrayBuffer())
+    //   const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
+    //   const res = await uploadFileToS3(convertedBuffer, img.name)
+    //   if (res?.imageId && typeof res.imageId === 'string') {
+    //     imageIds.push(res.imageId)
+    //   }
+    // }
 
     user = await prisma.user.create({
       data: {
         name: result.data.name,
-        phone: result.data.phone,
-        // price: +result.data.price,
-        website: result.data.website,
-        description: result?.data.description,
-        images: {
-          connect: imageIds.map((id) => ({
-            id: id,
-          })),
-        },
-        specialization: {
-          connect: result.data?.specializationId?.map((id: string) => ({
-            id: id,
-          })),
-        },
+        phone: result.data.phone!,
+        password: result.data.password,
+        bio: result?.data.bio,
+        gender: gender,
+        profileImageId: res?.imageId,
+        beforeImageId: beforeImageRes?.imageId,
+        afterImageId: afterImageRef?.imageId,
+
+        // specialization: {
+        //   connect: result.data?.specializationId?.map((id: string) => ({
+        //     id: id,
+        //   })),
+        // },
       },
     })
-    if (result.data.open_time) {
-      const timeData = []
-      for (const time of result.data.open_time) {
-        const newTimeData = await prisma.dateTag.create({
-          data: {
-            time,
-            doctorId: doctor.id,
-          },
-        })
-        timeData.push(newTimeData.id)
-      }
-      await prisma.doctor.update({
-        where: {
-          id: doctor.id,
-        },
-        data: {
-          open_time: {
-            connect: timeData.map((id: string) => ({
-              id,
-            })),
-          },
-        },
-      })
-    }
+    // if (result.data.) {
+    //   const timeData = []
+    //   for (const time of result.data.open_time) {
+    //     const newTimeData = await prisma.dateTag.create({
+    //       data: {
+    //         time,
+    //         doctorId: doctor.id,
+    //       },
+    //     })
+    //     timeData.push(newTimeData.id)
+    //   }
+    //   await prisma.doctor.update({
+    //     where: {
+    //       id: doctor.id,
+    //     },
+    //     data: {
+    //       open_time: {
+    //         connect: timeData.map((id: string) => ({
+    //           id,
+    //         })),
+    //       },
+    //     },
+    //   })
+    // }
     // console.log(res?.imageUrl)
     // console.log(category)
   } catch (err: unknown) {
@@ -160,7 +186,7 @@ export async function createUser(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }
 interface EditUserFormState {
   errors: {

@@ -53,6 +53,7 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns-jalali'
+import { createTimeline, editTimeline } from '@/lib/actions/dashboard/timeline'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
 type TimelineFormValues = z.infer<typeof createTimelineSchema>
@@ -69,8 +70,7 @@ interface TimelineFormProps {
 
 const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
   const [files, setFiles] = useState<File[]>([])
-  const [beforeFiles, setBeforeFiles] = useState('')
-  const [afterFiles, setAfterFiles] = useState('')
+
   // const [modal, setModal] = useState('')
   const path = usePathname()
 
@@ -94,6 +94,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
         // price: parseFloat(String(initialData?.price)),
 
         description: initialData.description || '',
+
         // specializationTag:
         //   initialData.open_time.map((w: { time: string }) => w.time) || [],
         // main_image: initialData.main_image || '',
@@ -147,7 +148,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
       if (initialData) {
         // console.log({ data, initialData })
         startTransition(() => {
-          editUser(formData, initialData.id as string, path)
+          editTimeline(formData, initialData.id as string, path)
             .then((res) => {
               if (res?.errors?.date) {
                 form.setError('date', {
@@ -180,7 +181,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData }) => {
         })
       } else {
         startTransition(() => {
-          createUser(formData, path)
+          createTimeline(formData, path)
             .then((res) => {
               if (res?.errors?.date) {
                 form.setError('date', {

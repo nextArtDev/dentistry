@@ -21,7 +21,7 @@ const UserPage = async ({ params }: { params: { userId: string } }) => {
       // open_time: true,
     },
   })
-  if (!user) return notFound()
+  // if (!user) return notFound()
   // const specialization = await prisma.specialization.findMany({
   //   // where: {
   //   //   doctors: { some: { id: params.doctorId } },

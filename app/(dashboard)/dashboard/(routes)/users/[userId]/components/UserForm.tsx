@@ -46,6 +46,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import Link from 'next/link'
+import React from 'react'
+
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
 type UserFormValues = z.infer<typeof createUserSchema>
@@ -65,9 +67,9 @@ interface UserFormProps {
 }
 
 const UserForm: FC<UserFormProps> = ({ initialData }) => {
-  const [files, setFiles] = useState('')
-  const [beforeFiles, setBeforeFiles] = useState('')
-  const [afterFiles, setAfterFiles] = useState('')
+  const [file, setFile] = useState<File | null>(null)
+  const [beforeFiles, setBeforeFiles] = useState<File | null>(null)
+  const [afterFiles, setAfterFiles] = useState<File | null>(null)
 
   const path = usePathname()
 
@@ -123,6 +125,10 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
     formData.append('phone', data.phone || '')
     formData.append('bio', data.bio || '')
     formData.append('password', data.password)
+    formData.append('gender', data.gender || '1')
+    formData.append('profileImage', data.profileImage)
+    formData.append('beforeImage', data.beforeImage)
+    formData.append('afterImage', data.afterImage)
 
     // formData.append('price', String(data.price))
     // if (data.specializationId && data.specializationId.length > 0) {
@@ -135,16 +141,16 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
     //     formData.append('open_time', data.open_time[i])
     //   }
     // }
-    if (data.afterImage && data.afterImage.length > 0) {
-      for (let i = 0; i < data.afterImage.length; i++) {
-        formData.append('afterImage', data.afterImage[i])
-      }
-    }
-    if (data.beforeImage && data.beforeImage.length > 0) {
-      for (let i = 0; i < data.beforeImage.length; i++) {
-        formData.append('beforeImage', data.beforeImage[i])
-      }
-    }
+    // if (data.afterImage && data.afterImage.length > 0) {
+    //   for (let i = 0; i < data.afterImage.length; i++) {
+    //     formData.append('afterImage', data.afterImage[i])
+    //   }
+    // }
+    // if (data.beforeImage && data.beforeImage.length > 0) {
+    //   for (let i = 0; i < data.beforeImage.length; i++) {
+    //     formData.append('beforeImage', data.beforeImage[i])
+    //   }
+    // }
 
     try {
       if (initialData) {
@@ -270,22 +276,25 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
   //     : (files
   //         .map((file) => URL.createObjectURL(file))
   //         .filter(Boolean) as string[])
-  // const afterValidUrls =
-  //   initialData && initialData.afterImage
-  //     ? (initialData.afterImage
-  //         .map((img) => img.url)
-  //         .filter(Boolean) as string[])
-  //     : (files
-  //         .map((file) => URL.createObjectURL(file))
-  //         .filter(Boolean) as string[])
-  // const profileValidUrls =
-  //   initialData && initialData.profileImage
-  //     ? (initialData.profileImage
-  //         .map((img) => img.url)
-  //         .filter(Boolean) as string[])
-  //     : (files
-  //         .map((file) => URL.createObjectURL(file))
-  //         .filter(Boolean) as string[])
+  const beforeValidUrls =
+    initialData && initialData.beforeImage
+      ? initialData.beforeImage.url
+      : beforeFiles
+      ? URL.createObjectURL(beforeFiles)
+      : null
+  const afterValidUrls =
+    initialData && initialData.afterImag
+      ? initialData.afterImag.url
+      : afterFiles
+      ? URL.createObjectURL(afterFiles)
+      : null
+
+  const validUrl =
+    initialData && initialData.profileImag
+      ? initialData.profileImag.url
+      : file
+      ? URL.createObjectURL(file)
+      : null
 
   // const handleInputKeyDown = (
   //   e: KeyboardEvent<HTMLInputElement>,
@@ -358,7 +367,7 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="flex flex-col gap-4 space-y-8  w-full"
         >
-          <div className="col-span-2 lg:col-span-4 max-w-md ">
+          {/* <div className="col-span-2 lg:col-span-4 max-w-md ">
             {!!files && (
               <div
                 // ratio={}
@@ -416,6 +425,51 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
                 }
               }}
             />
+          </div> */}
+          <div className="col-span-2 lg:col-span-4 max-w-md ">
+            {file ? (
+              <div className="h-96 md:h-[450px] overflow-hidden rounded-md">
+                <AspectRatio ratio={1 / 1} className="relative h-full">
+                  <NextImage
+                    fill
+                    src={validUrl || ''}
+                    alt="Uploaded image"
+                    className="object-cover"
+                  />
+                </AspectRatio>
+              </div>
+            ) : (
+              <FormField
+                control={form.control}
+                name="profileImage"
+                render={({ field: { onChange }, ...field }) => (
+                  <FormItem>
+                    <FormLabel className="mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-dashed w-full h-24 shadow">
+                      <span className={cn(buttonVariants())}> عکس پروفایل</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={form.formState.isSubmitting}
+                        {...field}
+                        onChange={(event) => {
+                          const selectedFile = event.target.files?.[0]
+                          if (selectedFile) {
+                            setFile(selectedFile)
+                            onChange(selectedFile)
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage>
+                      {form.getFieldState('profileImage')?.error?.message}
+                    </FormMessage>
+                  </FormItem>
+                )}
+              />
+            )}
           </div>
 
           <div className="flex flex-col gap-8 md:grid md:grid-cols-3  ">
@@ -507,26 +561,28 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
                     dir="rtl"
                     disabled={isPending}
                     onValueChange={field.onChange}
-                    value={field.value}
+                    // value={field.value}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue
-                          defaultValue={field.value}
+                          // defaultValue={field.value}
                           placeholder="جنسیت بیمار را انتخاب کنید."
                         />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {[
+                      {/* {[
                         { id: '1', label: 'مرد' },
                         { id: '2', label: 'زن' },
                       ].map((billboard) => (
                         <SelectItem key={billboard.id} value={billboard.id}>
                           {billboard.label}
                         </SelectItem>
-                      ))}
+                      ))} */}
+                      <SelectItem value="1">مرد</SelectItem>
+                      <SelectItem value="2">زن</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -536,122 +592,99 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
           </div>
           <div className="flex flex-col md:flex-row gap-5 ">
             <div className="col-span-2 lg:col-span-4 max-w-md ">
-              {!!beforeFiles && (
-                <div
-                  // ratio={}
-                  className="relative mx-auto rounded-lg  h-96 w-[95%] max-w-xl "
-                >
-                  <NextImage
-                    alt="billboard-pic"
-                    // src={initialData?.image ? initialData?.image?.url : beforeFiles}
-                    src={beforeFiles}
-                    // src={URL.createObjectURL(files)}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                  <Trash
-                    className={cn(
-                      buttonVariants({ variant: 'destructive', size: 'sm' }),
-                      'absolute -top-1 -left-1 w-10 h-10 cursor-pointer '
-                    )}
-                    onClick={() => {
-                      form.reset({ ...form.getValues(), profileImage: null })
-                      setBeforeFiles('')
-                    }}
-                  />
+              {!!beforeFiles ? (
+                <div className="h-96 md:h-[450px] overflow-hidden rounded-md">
+                  <AspectRatio ratio={1 / 1} className="relative h-full">
+                    <NextImage
+                      fill
+                      src={beforeValidUrls || ''}
+                      alt="Uploaded image"
+                      className="object-cover"
+                    />
+                  </AspectRatio>
                 </div>
-              )}
-
-              <label
-                htmlFor="beforeFiles"
-                className={cn(
-                  'max-w-md mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-secondary/20  border-dashed w-full h-24 shadow ',
-                  beforeFiles.length > 0 ? 'hidden' : ''
-                )}
-              >
-                <span
-                  className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-
-                    'flex flex-col items-center justify-center gap-2 h-64 w-full'
+              ) : (
+                <FormField
+                  control={form.control}
+                  name="beforeImage"
+                  render={({ field: { onChange }, ...field }) => (
+                    <FormItem>
+                      <FormLabel className="mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-dashed w-full h-24 shadow">
+                        <span className={cn(buttonVariants())}>
+                          {' '}
+                          عکس پیش از درمان
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={form.formState.isSubmitting}
+                          {...field}
+                          onChange={(event) => {
+                            const selectedFile = event.target.files?.[0]
+                            if (selectedFile) {
+                              setBeforeFiles(selectedFile)
+                              onChange(selectedFile)
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.getFieldState('beforeImage')?.error?.message}
+                      </FormMessage>
+                    </FormItem>
                   )}
-                >
-                  <UploadCloud />
-                  عکس پیش از درمان
-                </span>
-              </label>
-              <input
-                name="beforeImage"
-                id="beforeImage"
-                className="hidden"
-                type="file"
-                onChange={(e) => {
-                  const file = e.target.files ? e.target.files[0] : null
-                  if (file) {
-                    form.setValue('beforeImage', URL.createObjectURL(file))
-                    setBeforeFiles(URL.createObjectURL(file))
-                  }
-                }}
-              />
+                />
+              )}
             </div>
             <div className="col-span-2 lg:col-span-4 max-w-md ">
-              {afterFiles && (
-                <div
-                  // ratio={}
-                  className="relative mx-auto rounded-lg  h-96 w-[95%] max-w-xl "
-                >
-                  <NextImage
-                    alt="billboard-pic"
-                    // src={initialData?.image ? initialData?.image?.url : files}
-                    src={afterFiles}
-                    // src={URL.createObjectURL(files)}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                  <Trash
-                    className={cn(
-                      buttonVariants({ variant: 'destructive', size: 'sm' }),
-                      'absolute -top-1 -left-1 w-10 h-10 cursor-pointer '
-                    )}
-                    onClick={() => {
-                      form.reset({ ...form.getValues(), profileImage: null })
-                      setAfterFiles('')
-                    }}
-                  />
+              {!!afterFiles ? (
+                <div className="h-96 md:h-[450px] overflow-hidden rounded-md">
+                  <AspectRatio ratio={1 / 1} className="relative h-full">
+                    <NextImage
+                      fill
+                      src={afterValidUrls || ''}
+                      alt="Uploaded image"
+                      className="object-cover"
+                    />
+                  </AspectRatio>
                 </div>
-              )}
-
-              <label
-                htmlFor="afterFiles"
-                className={cn(
-                  'max-w-md mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-secondary/20 border-dashed w-full h-24 shadow ',
-                  afterFiles.length > 0 ? 'hidden' : ''
-                )}
-              >
-                <span
-                  className={cn(
-                    buttonVariants({ variant: 'ghost' }),
-
-                    'flex flex-col items-center justify-center gap-2 h-64 w-full'
+              ) : (
+                <FormField
+                  control={form.control}
+                  name="afterImage"
+                  render={({ field: { onChange }, ...field }) => (
+                    <FormItem>
+                      <FormLabel className="mx-auto cursor-pointer bg-transparent rounded-xl flex flex-col justify-center gap-4 items-center border-2 border-dashed w-full h-24 shadow">
+                        <span className={cn(buttonVariants())}>
+                          عکس بعد از درمان
+                        </span>
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={form.formState.isSubmitting}
+                          {...field}
+                          onChange={(event) => {
+                            const selectedFile = event.target.files?.[0]
+                            if (selectedFile) {
+                              setAfterFiles(selectedFile)
+                              onChange(selectedFile)
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage>
+                        {form.getFieldState('afterImage')?.error?.message}
+                      </FormMessage>
+                    </FormItem>
                   )}
-                >
-                  <UploadCloud />
-                  عکس پس از درمان
-                </span>
-              </label>
-              <input
-                name="afterImage"
-                id="afterImage"
-                className="hidden"
-                type="file"
-                onChange={(e) => {
-                  const file = e.target.files ? e.target.files[0] : null
-                  if (file) {
-                    form.setValue('afterImage', URL.createObjectURL(file))
-                    setAfterFiles(URL.createObjectURL(file))
-                  }
-                }}
-              />
+                />
+              )}
             </div>
           </div>
 

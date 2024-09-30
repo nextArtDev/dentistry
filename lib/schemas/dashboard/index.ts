@@ -75,7 +75,8 @@ export const createTimelineSchema = z.object({
   // .array()  satisfies Prisma.ImagesUncheckedCreateNestedManyWithoutDoctorInput,
   // booking: z.object({ booking_time: z.date() }).array().optional(),
   //Because we're working with Decimal, we should add "coerce"
-}) satisfies z.Schema<Prisma.TimeLineUncheckedCreateInput>
+})
+//  satisfies z.Schema<Prisma.TimeLineUncheckedCreateInput>
 
 export const createSpecializationSchema = z.object({
   name: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
