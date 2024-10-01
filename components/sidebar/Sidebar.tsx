@@ -8,6 +8,7 @@ import ToggleButton from './ToggleButton'
 const variants = {
   open: {
     clipPath: 'circle(1200px at 50px 50px)',
+    opacity: 1,
     transition: {
       type: 'spring',
       stiffness: 20,
@@ -15,6 +16,7 @@ const variants = {
   },
   closed: {
     clipPath: 'circle(25px at 50px 50px)',
+    opacity: 1,
     transition: {
       delay: 0.5,
       type: 'spring',
@@ -32,9 +34,10 @@ const Sidebar = () => {
   return (
     <motion.div
       dir="ltr"
-      className=""
+      className=" "
       style={{
         display: 'flex',
+        // opacity: 0,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
@@ -48,13 +51,15 @@ const Sidebar = () => {
     >
       <motion.div
         //   className={stylex(s.bg)}
+        className="backdrop-blur-md"
         style={{
           zIndex: '999',
           position: 'fixed',
+          opacity: 0,
           top: '0',
           left: '0',
           bottom: '0',
-          background: '#ffffff97',
+          background: '#ffffff22',
 
           // backdropFilter: '12px',
           backdropFilter: '50px',

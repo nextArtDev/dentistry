@@ -20,6 +20,7 @@ import { useMemo, useRef, useState } from 'react'
 import { useWindowSize } from 'react-use'
 import Image from 'next/image'
 // import { useWindowSize } from './useWindowSize'
+import posterImage from '../../public/images/poster3.jpg'
 
 import { Button } from '@/components/ui/button'
 import Comparison from '../compare/Comparison'
@@ -79,7 +80,7 @@ export const ImageCarousel = () => {
       animate={carouselVariant}
       className="bg-gradient-to-t from-white to-#FC898B pb-16 z-0 "
     >
-      <div ref={carouselWrapperRef} className=" h-[200vh] overflow-clip">
+      <div ref={carouselWrapperRef} className=" h-[220vh] overflow-clip">
         <div className="sticky top-0 flex h-screen items-center">
           <div className="relative left-1/2 mb-5 flex -translate-x-1/2 gap-5">
             <motion.div
@@ -100,8 +101,10 @@ export const ImageCarousel = () => {
               <Image
                 fill
                 className="h-full w-full object-cover"
-                src={movies[1].poster}
-                alt={movies[1].name}
+                // src={movies[1].poster}
+                // alt={movies[1].name}
+                src={posterImage.src}
+                alt={'ایمپلنت'}
               />
               <motion.div
                 variants={{
@@ -167,7 +170,7 @@ const SmallImageCarousel = ({ movies }: { movies: RandomMovie[] }) => {
               secondImage={movie.afterImgSrc}
               firstImageClassName="object-cover  "
               secondImageClassname="object-cover  "
-              className="h-[10vh] md:h-[15vh] w-[40vw] shrink-0 md:w-[23vw]"
+              className="h-[10vh] sm:[15vh] md:h-[20vh] w-[40vw] shrink-0 md:w-[23vw] origin-center"
               // className="rounded-2xl "
               slideMode="hover"
               showHandlebar={false}

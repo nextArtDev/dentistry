@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'assets.aceternity.com',
+        hostname: 'mye-commerce.storage.iran.liara.space',
         port: '',
       },
     ],

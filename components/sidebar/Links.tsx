@@ -46,12 +46,12 @@ const itemVariants = {
 }
 
 const Links = () => {
-  const items = ['Homepage', 'Services', 'Portfolio', 'Contact', 'About']
+  const items = ['خانه', 'خدمات', 'درباره من', 'صفحه شخصی', 'تماس با ما']
 
   return (
     <motion.div
       //   className={stylex(s.links)}
-      //   className="links"
+      className="font-semibold"
       style={{
         position: 'absolute',
         width: '100%',

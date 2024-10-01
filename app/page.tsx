@@ -20,6 +20,8 @@ import RotatingNavigation from '@/components/rotaing-ill/rotating-nav'
 import RenderModel from '@/components/rotaing-ill/render-model'
 import Model from '@/components/Model'
 import Rotating from '@/components/rotaing-ill/rotating'
+import HorizontalScroll from '@/components/horizontal-scroll/HorizontalScroll'
+import StickyScrollVideo from '@/components/horizontal-scroll/StickyScrollVideo'
 
 // const cardData = {
 //   title: 'Amazing Product',
@@ -61,10 +63,13 @@ export default function Home() {
         </RenderModel> */}
       </section>
       <Highlights />
-
       <section dir="ltr" className="relative  ">
         <ImageCarousel />
       </section>
+      {/* <section className=" relative overflow-hidden ">
+        <HorizontalScroll />
+      </section> */}
+      <StickyScrollVideo />
       <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
         {/* <CompareSlider
           before={BImplant}
@@ -101,7 +106,6 @@ export default function Home() {
           index={1}
         />
       </section>
-
       {/* <Highlights /> */}
       {/* <CompareSlider before={} after={} disease="" index={} /> */}
     </section>
