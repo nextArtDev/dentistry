@@ -85,21 +85,7 @@ const CompareSlider = ({
           }
           position={sliderPosition}
           onPositionChange={setSliderPosition}
-          handle={
-            <ReactCompareSliderHandle
-              //   buttonStyle={{
-              //     backdropFilter: 'none',
-              //     background: '#ffffff40',
-              //     // filter: backdrop(),
-              //     backdropFilter: 'sepia(90%)',
-              //     backdropFilter: 'blur(10px)',
-
-              //     border: 0,
-              //     boxShadow: '0 0 0 3px rgba(0, 0, 0, 0.1)',
-              //   }}
-              linesStyle={{ opacity: 0 }}
-            />
-          }
+          handle={<ReactCompareSliderHandle linesStyle={{ opacity: 0 }} />}
         />
         {disableHandle && (
           <div className="absolute inset-0 bg-transparent z-[1]  "></div>
