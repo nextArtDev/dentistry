@@ -219,3 +219,14 @@ body {
 
 /* color1:#FC898B */
 /* color2:#F39C9D */
+
+/* Custom box shadow  */
+.custom-box-shadow {
+  box-shadow: 1px 1px #fff8dc, -1px -1px #ffb6c1;
+}
+.custom-text-shadow {
+  text-shadow: 1px 1px #ffb6c1, -1px -1px #fff8dc;
+}
+.custom-number-shadow {
+  text-shadow: 0.7px 0.7px #000000, -0.7px -0.7px #fff8dc;
+}

@@ -53,7 +53,11 @@ const MorphingCard: React.FC<MorphingCardProps> = ({
   const currentContent = contents[currentIndex]
 
   return (
-    <div className="relative" style={{ width, height }}>
+    <div
+      dir="ltr"
+      className="relative text-[rebeccapurple]"
+      style={{ width, height }}
+    >
       <motion.div
         className="absolute inset-0 cursor-pointer overflow-hidden rounded-2xl shadow-lg"
         style={{
@@ -76,10 +80,10 @@ const MorphingCard: React.FC<MorphingCardProps> = ({
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
           >
-            <h3 className="text-xl font-semibold text-white mb-4 text-center">
+            <h3 className="text-xs font-semibold text-[rebeccapurple]/70 mb-4 text-center">
               {currentContent.title}
             </h3>
-            <p className="text-sm text-white text-center">
+            <p className="text-lg text-[rebeccapurple]  text-center">
               {currentContent.description}
             </p>
           </motion.div>
@@ -97,7 +101,7 @@ const MorphingCard: React.FC<MorphingCardProps> = ({
         ))}
       </div>
       <button
-        className="absolute top-4 right-4 rounded-full bg-white/20 p-2 text-white hover:bg-white/30"
+        className=" absolute top-4 right-4 rounded-full bg-white/20 p-2 text-white hover:bg-white/30"
         onClick={(e) => {
           e.stopPropagation()
           setIsPlaying(!isPlaying)

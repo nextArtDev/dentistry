@@ -8,7 +8,7 @@ import { ReactNode } from 'react'
 export default function RotatingCircles() {
   return (
     <div className="relative group flex h-full w-full flex-col items-center justify-center overflow-hidden md:shadow-xl ">
-      <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-black to-gray-300 bg-clip-text text-center text-8xl font-semibold leading-none text-transparent dark:from-white dark:to-black">
+      <span className="pointer-events-none whitespace-pre-wrap bg-gradient-to-b from-white/30 to-white/20 backdrop-blur-sm bg-clip-text text-center text-8xl font-semibold leading-none text-transparent ">
         <MorphingCard
           width="200px"
           height="200px"
@@ -29,7 +29,7 @@ export default function RotatingCircles() {
               description: '0935121212',
             },
           ]}
-          colorScheme={{ from: '#4F46E5', to: '#7C3AED' }}
+          colorScheme={{ from: '#E7E1D9', to: '#ffffff' }}
           autoPlay={true}
           interval={4000}
         />
@@ -44,7 +44,7 @@ export default function RotatingCircles() {
         reverse
       >
         <Content>
-          <Circle className="bg-transparent border-none">
+          <Circle className="bg-transparent border-none ">
             <h2>ترمیم</h2>
           </Circle>
         </Content>
@@ -58,9 +58,9 @@ export default function RotatingCircles() {
         reverse
       >
         <Content>
-          <Circle className="bg-transparent border-none">
+          <div className="bg-transparent border-none z-10 flex size-12 items-center justify-center rounded-full border-2 text-[rebeccapurple] border-[rebeccapurple]  p-1 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]">
             <h2>لمینت</h2>
-          </Circle>
+          </div>
         </Content>
       </OrbitingCircles>
       <OrbitingCircles
@@ -170,7 +170,7 @@ const Content = ({ children }: { children: ReactNode }) => {
   return (
     <article
       style={{ borderRadius: '999' }}
-      className="!p-2 border w-44 h-auto flex items-center justify-center text-center text-[rebeccapurple]/80 bg-white/10 backdrop-blur-sm rounded-full font-semibold "
+      className="p-1 text-xs md:text-sm h-auto flex items-center justify-center text-center text-[rebeccapurple]  glass backdrop-blur-sm rounded-full font-semibold bg-transparent border-none z-10  size-24   border-2   border-[rebeccapurple]  shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]"
     >
       {children}
     </article>

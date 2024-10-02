@@ -5,6 +5,32 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useOutsideClick } from '@/hooks/use-outside-click'
 import { Expand, X } from 'lucide-react'
 
+// • Colors: Mint green, soft coral, white, and a bold, modern font.
+// • Example:
+//   * Primary: #B2D7B0 (mint green)
+//   * Secondary: #F8C6C7 (soft coral)
+//   * Accent: #333333 (dark gray)
+//   * Text: #333333 (dark gray)
+// • Why it works: This palette is fresh and contemporary, appealing to a younger audience. The coral adds a touch of warmth and energy.
+
+// 3. Natural and Earthy:
+
+// • Colors: Sage green, warm beige, light brown, and cream.
+// • Example:
+//   * Primary: #99B99B (sage green)
+//   * Secondary: #E7E1D9 (warm beige)
+//   * Accent: #998B7D (light brown)
+//   * Text: #333333 (dark gray)
+// • Why it works: This palette evokes a sense of calm and nature, creating a relaxed atmosphere.
+
+// 4. Luxurious and Sophisticated:
+
+// • Colors: Deep jewel tones like sapphire blue, amethyst purple, and a touch of gold or silver.
+// • Example:
+//   * Primary: #496070 (deep sapphire)
+//   * Secondary: #948DC1 (amethyst)
+//   * Accent: #D4AC0D (gold)
+//   * Text: #FFFFFF (white)
 interface ExpandableCardProps {
   title: string
   src: string
