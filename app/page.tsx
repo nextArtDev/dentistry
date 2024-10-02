@@ -22,6 +22,9 @@ import Model from '@/components/Model'
 import Rotating from '@/components/rotaing-ill/rotating'
 import HorizontalScroll from '@/components/horizontal-scroll/HorizontalScroll'
 import StickyScrollVideo from '@/components/horizontal-scroll/StickyScrollVideo'
+import { MarqueeDemoVertical } from '@/components/marquee/MarqueeVertical'
+import Footer from '@/components/footer/Footer'
+import RippleBg from '@/components/RippleBg'
 
 // const cardData = {
 //   title: 'Amazing Product',
@@ -48,19 +51,21 @@ export default function Home() {
       <section className="overflow-x-hidden">
         <Hero />
       </section>
-      <TeamAnimatedBeam />
+      <section className="relative">
+        <TeamAnimatedBeam />
+      </section>
       {/* <ExpandableCardDemo card={cardData} /> */}
       {/* <Comparison /> */}
       {/* <AnimatedBeamDemo /> */}
       {/* <section>
         <Team />
       </section> */}
-      <section className="relative min-h-[50vh] overflow-hidden flex items-center justify-center">
+      <section className="relative min-h-[70vh] overflow-hidden flex items-center justify-center">
         {/* <RotatingNavigation /> */}
         <Rotating />
         {/* <RenderModel className="w-32">
           <Model />
-        </RenderModel> */}
+          </RenderModel> */}
       </section>
       <Highlights />
       <section dir="ltr" className="relative  ">
@@ -108,6 +113,12 @@ export default function Home() {
       </section>
       {/* <Highlights /> */}
       {/* <CompareSlider before={} after={} disease="" index={} /> */}
+      <section className="flex gap-2">
+        <MarqueeDemoVertical />
+
+        {/* <MarqueeDemoVertical /> */}
+      </section>
+      <Footer />
     </section>
   )
 }

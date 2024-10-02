@@ -3,6 +3,7 @@ import { BorderBeam } from './BorderBeam'
 import MorphingCard from './morphing-card'
 import OrbitingCircles from './OrbittingCircles'
 import { ReactNode } from 'react'
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
 
 // دندان مصنوعی، ایمپلنت، روکش دندان، ارتودنسی، ترمیم دندان، جراحی لثه، دندانپزشکی زیبایی
 export default function RotatingCircles() {
@@ -38,9 +39,9 @@ export default function RotatingCircles() {
       <OrbitingCircles
         path={false}
         className="text-white  group-hover:pause z-[2] size-[30px] border-none bg-transparent"
-        duration={40}
-        delay={0}
         radius={150}
+        duration={40}
+        delay={40}
         reverse
       >
         <Content>
@@ -49,6 +50,7 @@ export default function RotatingCircles() {
           </Circle>
         </Content>
       </OrbitingCircles>
+
       <OrbitingCircles
         path={false}
         className="text-white group-hover:pause z-[2] size-[30px] border-none bg-transparent"
@@ -58,7 +60,7 @@ export default function RotatingCircles() {
         reverse
       >
         <Content>
-          <div className="bg-transparent border-none z-10 flex size-12 items-center justify-center rounded-full border-2 text-[rebeccapurple] border-[rebeccapurple]  p-1 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]">
+          <div className="bg-transparent border-none z-10 flex size-12 items-center justify-center rounded-full   ">
             <h2>لمینت</h2>
           </div>
         </Content>
@@ -148,7 +150,7 @@ export default function RotatingCircles() {
           </Circle>
         </Content>
       </OrbitingCircles>
-      <OrbitingCircles
+      {/* <OrbitingCircles
         path={false}
         className="group-hover:pause z-[2] size-[50px] border-none bg-transparent"
         radius={150}
@@ -161,7 +163,7 @@ export default function RotatingCircles() {
             <h2>ارتودنسی</h2>
           </Circle>
         </Content>
-      </OrbitingCircles>
+      </OrbitingCircles> */}
     </div>
   )
 }

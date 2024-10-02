@@ -23,7 +23,8 @@ const Profile = forwardRef<
     <div
       ref={ref}
       className={cn(
-        '  z-10 flex flex-col gap-0.5 items-center justify-center   p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]',
+        // '  z-10 bg-transparent flex flex-col gap-0.5 items-center justify-center   p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]',
+        '   bg-transparent flex flex-col gap-0.5 items-center justify-center   p-3 shadow-[0_0_20px_-12px_rgba(0, 0, 0, 0.158)]',
         className
       )}
     >
@@ -61,7 +62,7 @@ const Circle = forwardRef<
     <div
       ref={ref}
       className={cn(
-        'z-10 flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]',
+        '  flex size-12 items-center justify-center rounded-full border-2 bg-white p-3 shadow-[0_0_20px_-12px_rgba(0,0,0,0.8)]',
         className
       )}
     >
@@ -84,7 +85,7 @@ const TeamAnimatedBeam = () => {
 
   return (
     <div
-      className="relative flex h-auto w-full items-center justify-center overflow-hidden rounded-lg  bg-white/10 p-4 md:shadow-xl"
+      className="  relative flex h-auto w-full items-center justify-center overflow-hidden   bg-white text-[rebeccapurple] p-4 md:shadow-xl"
       ref={containerRef}
     >
       <div className="flex size-full flex-col max-w-lg  items-stretch justify-between gap-10">
@@ -111,7 +112,7 @@ const TeamAnimatedBeam = () => {
           />
           <Circle
             ref={div4Ref}
-            className="size-16 !border-opacity-30 bg-opacity-30"
+            className="size-16 !border-opacity-30 bg-opacity-30 !glass"
           >
             {/* <Icons.openai /> */}
             <Image

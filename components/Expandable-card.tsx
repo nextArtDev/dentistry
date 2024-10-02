@@ -47,20 +47,20 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-white/80 h-full w-full z-30"
+            className=" fixed inset-0 bg-transparent h-full w-full  "
           />
         )}
       </AnimatePresence>
       <AnimatePresence>
         {active ? (
-          <div className="fixed inset-0  grid place-items-center z-40">
+          <div className="fixed inset-0  grid place-items-center  ">
             <motion.button
               key={`button-${card.title}-${id}`}
               layout
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.05 } }}
-              className="flex p-0.5 absolute top-3 right-3 lg:hidden items-center justify-center bg-white/75 rounded-full h-6 w-6"
+              className="flex p-0.5 absolute top-3 right-3 lg:hidden items-center justify-center bg-transparent rounded-full h-6 w-6"
               onClick={() => setActive(false)}
             >
               <CloseIcon />
@@ -68,7 +68,7 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
             <motion.div
               layoutId={`card-${card.title}-${id}`}
               ref={ref}
-              className="w-fit max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col bg-white/80 dark:bg-white/80  sm:rounded-3xl overflow-hidden"
+              className="  glass  w-fit max-w-[500px]  h-full md:h-fit md:max-h-[90%]  flex flex-col   sm:rounded-3xl overflow-hidden"
             >
               <motion.div layoutId={`image-${card.title}-${id}`}>
                 <Image
@@ -86,13 +86,13 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
                   <div className="">
                     <motion.h3
                       layoutId={`title-${card.title}-${id}`}
-                      className="font-bold text-neutral-700 dark:text-neutral-200"
+                      className="font-bold text-[rebeccapurple]"
                     >
                       {card.title}
                     </motion.h3>
                     <motion.p
                       layoutId={`description-${card.description}-${id}`}
-                      className="text-neutral-600 dark:text-neutral-400"
+                      className="text-[rebeccapurple]/70"
                     >
                       {card.description}
                     </motion.p>
@@ -129,7 +129,7 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
       <motion.div
         layoutId={`card-${card.title}-${id}`}
         onClick={() => setActive(true)}
-        className="w-fit flex flex-col justify-between items-center   rounded-xl cursor-pointer"
+        className="bg-transparent w-fit flex flex-col justify-between items-center   rounded-xl cursor-pointer"
       >
         <div className="flex gap-3 flex-col items-center justify-center">
           <motion.div layoutId={`image-${card.title}-${id}`}>
@@ -144,13 +144,13 @@ export function ExpandableCardDemo({ card }: ExpandableCardProps) {
           <div className="">
             <motion.h3
               layoutId={`title-${card.title}-${id}`}
-              className="font-medium text-secondary text-center md:text-left"
+              className="font-medium   text-center md:text-left text-[rebeccapurple]"
             >
               {card.title}
             </motion.h3>
             <motion.p
               layoutId={`description-${card.description}-${id}`}
-              className="text-secondary/70 text-center md:text-left"
+              className=" text-center md:text-left text-[rebeccapurple]/70"
             >
               {card.description}
             </motion.p>
@@ -190,7 +190,7 @@ export const CloseIcon = () => {
       //   strokeWidth="2"
       //   strokeLinecap="round"
       //   strokeLinejoin="round"
-      className="h-8 w-8 flex items-center justify-center text-black/20"
+      className="z-40 h-8 w-8 flex items-center justify-center text-black/20"
     >
       <X className="text-red-500" />
       {/* <path stroke="none" d="M0 0h24v24H0z" fill="none" />

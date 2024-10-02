@@ -14,7 +14,7 @@ import RotatingNavigation from './rotating-nav'
 
 export default function Rotating() {
   return (
-    <section className="mx-auto bg-white  flex w-full  h-[70vh] md:h-screen   relative">
+    <section className="z-[2] mx-auto bg-white  flex w-full  h-[70vh] md:h-screen   relative">
       {/* <Image
         priority
         sizes="100vw"

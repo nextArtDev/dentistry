@@ -360,3 +360,84 @@ export const CloseIcon = () => {
 //     },
 //   },
 // ]
+
+// <svg
+//   xmlns="http://www.w3.org/2000/svg"
+//   version="1.1"
+//   xmlns:xlink="http://www.w3.org/1999/xlink"
+//   xmlns:svgjs="http://svgjs.dev/svgjs"
+//   viewBox="0 0 800 800"
+//   opacity="0.37"
+// >
+//   <defs>
+//     <filter
+//       id="bbblurry-filter"
+//       x="-100%"
+//       y="-100%"
+//       width="400%"
+//       height="400%"
+//       filterUnits="objectBoundingBox"
+//       primitiveUnits="userSpaceOnUse"
+//       color-interpolation-filters="sRGB"
+//     >
+//       <feGaussianBlur
+//         stdDeviation="58"
+//         x="0%"
+//         y="0%"
+//         width="100%"
+//         height="100%"
+//         in="SourceGraphic"
+//         edgeMode="none"
+//         result="blur"
+//       ></feGaussianBlur>
+//     </filter>
+//   </defs>
+//   <g filter="url(#bbblurry-filter)">
+//     <ellipse
+//       rx="219"
+//       ry="185.5"
+//       cx="258.6440950563441"
+//       cy="456.28119136151224"
+//       fill="hsla(359, 78%, 78%, 1.00)"
+//     ></ellipse>
+//     <ellipse
+//       rx="219"
+//       ry="185.5"
+//       cx="554.8919228758488"
+//       cy="484.61252661899744"
+//       fill="hsla(34, 23%, 88%, 1.00)"
+//     ></ellipse>
+//   </g>
+// </svg>
+
+// <svg
+//   xmlns="http://www.w3.org/2000/svg"
+//   version="1.1"
+//   xmlns:xlink="http://www.w3.org/1999/xlink"
+//   xmlns:svgjs="http://svgjs.dev/svgjs"
+//   viewBox="0 0 800 800"
+// >
+//   <defs>
+//     <radialGradient id="cccircular-grad" r="50%" cx="50%" cy="50%">
+//       <stop offset="25%" stop-color="#cb839a" stop-opacity="0.5"></stop>
+//       <stop
+//         offset="85%"
+//         stop-color="hsl(341, 100%, 85%)"
+//         stop-opacity="1"
+//       ></stop>
+//       <stop offset="100%" stop-color="#ffffff" stop-opacity="0.5"></stop>
+//     </radialGradient>
+//   </defs>
+//   <g fill="url(#cccircular-grad)">
+//     <circle r="352" cx="400" cy="400" opacity="1.00"></circle>
+//     <circle r="320" cx="400" cy="400" opacity="0.91"></circle>
+//     <circle r="288" cx="400" cy="400" opacity="0.81"></circle>
+//     <circle r="256" cx="400" cy="400" opacity="0.72"></circle>
+//     <circle r="224" cx="400" cy="400" opacity="0.62"></circle>
+//     <circle r="192" cx="400" cy="400" opacity="0.53"></circle>
+//     <circle r="160" cx="400" cy="400" opacity="0.43"></circle>
+//     <circle r="128" cx="400" cy="400" opacity="0.34"></circle>
+//     <circle r="96" cx="400" cy="400" opacity="0.24"></circle>
+//     <circle r="64" cx="400" cy="400" opacity="0.15"></circle>
+//   </g>
+// </svg>
