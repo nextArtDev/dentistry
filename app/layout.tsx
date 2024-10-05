@@ -32,7 +32,7 @@ export default function RootLayout({
     <html lang="fa-IR" dir="rtl" suppressHydrationWarning>
       <AuthProvider>
         <body
-          className={` ${primaryFont.className} ${numericFont.className} adad min-h-screen antialiased  `}
+          className={` ${primaryFont.className} ${numericFont.className} adad min-h-screen antialiased overflow-x-hidden `}
         >
           <ThemeProvider
             attribute="class"

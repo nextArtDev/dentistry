@@ -150,8 +150,8 @@ const TeamAnimatedBeam = () => {
         containerRef={containerRef}
         fromRef={div1Ref}
         toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
+        curvature={50}
+        endYOffset={-30}
       />
       <AnimatedBeam
         containerRef={containerRef}
@@ -162,15 +162,15 @@ const TeamAnimatedBeam = () => {
         containerRef={containerRef}
         fromRef={div3Ref}
         toRef={div4Ref}
-        curvature={75}
-        endYOffset={10}
+        curvature={-30}
+        endYOffset={25}
       />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div5Ref}
         toRef={div4Ref}
-        curvature={-75}
-        endYOffset={-10}
+        curvature={-50}
+        endYOffset={30}
         reverse
       />
       <AnimatedBeam
@@ -184,7 +184,7 @@ const TeamAnimatedBeam = () => {
         fromRef={div7Ref}
         toRef={div4Ref}
         curvature={75}
-        endYOffset={10}
+        endYOffset={-30}
         reverse
       />
     </div>

@@ -51,7 +51,7 @@ export default function Home() {
       <section className="overflow-x-hidden">
         <Hero />
       </section>
-      <section className="relative">
+      <section className="relative overflow-x-hidden">
         <TeamAnimatedBeam />
       </section>
       {/* <ExpandableCardDemo card={cardData} /> */}
@@ -75,7 +75,7 @@ export default function Home() {
         <HorizontalScroll />
       </section> */}
       <StickyScrollVideo />
-      <section className="w-full mb-[50vh] overflow-x-hidden bg-white">
+      <section className="w-full  overflow-x-hidden bg-white">
         {/* <CompareSlider
           before={BImplant}
           after={AImplant}

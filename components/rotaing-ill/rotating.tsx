@@ -2,6 +2,7 @@
 
 import MorphingCard from '../morphing-card'
 import RotatingCircles from '../RotatingCircles'
+import { Vortex } from '../Wortex'
 // import bg from '@/public/background/home-bg.webp'
 // import dynamic from 'next/dynamic'
 // import Image from 'next/image'

@@ -27,13 +27,14 @@ const UserPage = async ({
     },
   })
   if (!user) return notFound()
+  const specialization = await prisma.specialization.findMany()
+
   const timelines = await prisma.timeLine.findFirst({
     where: {
       id: params.timelineId,
       userId: params.userId,
     },
     include: {
-      specializationTag: true,
       images: { select: { url: true } },
     },
   })
@@ -41,7 +42,11 @@ const UserPage = async ({
   return (
     <div className="flex-col">
       <div className="flex-1 space-y-4 p-8 pt-6">
-        <TimelineForm initialData={timelines} userId={user.id} />
+        <TimelineForm
+          initialData={timelines}
+          userId={user.id}
+          specialization={specialization}
+        />
       </div>
     </div>
   )

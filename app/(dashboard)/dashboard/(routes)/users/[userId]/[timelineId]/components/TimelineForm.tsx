@@ -1,6 +1,12 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Image, SpecializationTag, TimeLine, User } from '@prisma/client'
+import {
+  Image,
+  Specialization,
+  SpecializationTag,
+  TimeLine,
+  User,
+} from '@prisma/client'
 import { usePathname } from 'next/navigation'
 
 import { FC, KeyboardEvent, useState, useTransition } from 'react'
@@ -54,7 +60,7 @@ import {
 import { Calendar } from '@/components/ui/calendar'
 import { format } from 'date-fns-jalali'
 import { createTimeline, editTimeline } from '@/lib/actions/dashboard/timeline'
-import { specializations } from '@/constants'
+// import { specializations } from '@/constants'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
 type TimelineFormValues = z.infer<typeof createTimelineSchema>
@@ -66,10 +72,14 @@ interface TimelineFormProps {
       } & { specializationTag: SpecializationTag[] | null })
     | null
   userId: string
-  // specialization: Specialization[]
+  specialization: Specialization[]
 }
 
-const TimelineForm: FC<TimelineFormProps> = ({ initialData, userId }) => {
+const TimelineForm: FC<TimelineFormProps> = ({
+  initialData,
+  userId,
+  specialization,
+}) => {
   const [files, setFiles] = useState<File[]>([])
 
   // const [modal, setModal] = useState('')
@@ -225,32 +235,32 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData, userId }) => {
     }
   }
 
-  const handleInputKeyDown = (
-    e: KeyboardEvent<HTMLInputElement>,
-    field: any
-  ) => {
-    if (e.key === 'Enter' && field.name === 'specializationTag') {
-      e.preventDefault()
+  // const handleInputKeyDown = (
+  //   e: KeyboardEvent<HTMLInputElement>,
+  //   field: any
+  // ) => {
+  //   if (e.key === 'Enter' && field.name === 'specializationTag') {
+  //     e.preventDefault()
 
-      const tagInput = e.target as HTMLInputElement
+  //     const tagInput = e.target as HTMLInputElement
 
-      if (tagInput.value !== '') {
-        if (!field.value?.includes(tagInput.value as never)) {
-          form.setValue('specializationTag', [...field.value, tagInput.value])
-          tagInput.value = ''
-          form.clearErrors('specializationTag')
-        }
-      } else {
-        form.trigger()
-      }
-    }
-  }
+  //     if (tagInput.value !== '') {
+  //       if (!field.value?.includes(tagInput.value as never)) {
+  //         form.setValue('specializationTag', [...field.value, tagInput.value])
+  //         tagInput.value = ''
+  //         form.clearErrors('specializationTag')
+  //       }
+  //     } else {
+  //       form.trigger()
+  //     }
+  //   }
+  // }
 
-  const handleTagRemove = (tag: string, field: any) => {
-    const newTags = field.value?.filter((t: string) => t !== tag)
+  // const handleTagRemove = (tag: string, field: any) => {
+  //   const newTags = field.value?.filter((t: string) => t !== tag)
 
-    form.setValue('specializationTag', newTags)
-  }
+  //   form.setValue('specializationTag', newTags)
+  // }
   const validUrls =
     initialData && initialData.images
       ? (initialData.images.map((img) => img.url).filter(Boolean) as string[])
@@ -441,7 +451,7 @@ const TimelineForm: FC<TimelineFormProps> = ({ initialData, userId }) => {
                     تخصص <span className="text-rose-500">*</span>
                   </FormLabel>
                   <MultiSelect
-                    options={specializations.map((special) => ({
+                    options={specialization.map((special) => ({
                       value: special.id,
                       label: special.name,
                     }))}

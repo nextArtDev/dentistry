@@ -1,5 +1,5 @@
 'use client'
-import { motion } from 'framer-motion'
+import { easeIn, motion } from 'framer-motion'
 import HeroImage from '../public/images/doctor.png'
 import tooth from '../public/images/tooth.png'
 import HeroBG from '../public/images/herobg.png'
@@ -9,15 +9,19 @@ import Works from './works'
 
 const textVariants = {
   initial: {
-    x: -500,
-    opacity: 0,
+    // x: -500,
+    scale: 0.03,
+    // opacity: 0,
   },
   animate: {
-    x: 0,
+    // x: 0,
+    scale: 1,
+
     opacity: 1,
     transition: {
-      duration: 1,
-      staggerChildren: 0.1,
+      duration: 0.3,
+      easeIn,
+      staggerChildren: 0.3,
     },
   },
   scrollButton: {
@@ -75,7 +79,7 @@ const Hero = () => {
       <section className="  grid grid-cols-1 grid-rows-9 md::grid-cols-2  w-full h-full mx-auto max-w-screen-xl  ">
         <article className="text-center row-span-2 flex flex-col pt-16 items-center justify-center w-full h-full  ">
           <motion.div
-            className="textContainer"
+            className="textContainer opacity-0"
             // style={{
             //   width: '50%',
             //   height: '100%',
@@ -107,8 +111,13 @@ const Hero = () => {
             </motion.h1>
           </motion.div>
         </article>
-        <article className="relative  row-span-7">
-          <figure className="relative flex flex-col w-full h-full">
+        <article className="relative flex flex-col w-full h-full row-span-7">
+          <motion.figure
+            initial={{ y: 200 }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.7 }}
+            className=" w-full h-full"
+          >
             <Image
               fill
               src={HeroImage.src}
@@ -116,6 +125,9 @@ const Hero = () => {
               className="z-[1]  object-contain w-fit px-10"
               // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <Orbiting />
+          </motion.figure>
+          <figure className=" w-full h-full">
             <Image
               width={52}
               height={50}
@@ -123,7 +135,6 @@ const Hero = () => {
               alt=""
               className="z-[3] absolute top-[5vh] left-[85%]         object-contain py-8 animate-bounce"
             />
-            <Orbiting />
           </figure>
           {/* <div className=" absolute inset-0 -top-[2vh] right-4 w-[250px] h-[300px]">
               <div className="relative w-full min-h-full">

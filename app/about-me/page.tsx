@@ -10,7 +10,7 @@ function page() {
       {/* <StickyScroll /> */}
       {/* <HorizontalScroll /> */}
       <HorizontalScrollCarousel rtl={true} className="overflow-x-hidden " />
-      <RippleBg />
+      {/* <RippleBg /> */}
     </div>
   )
 }
