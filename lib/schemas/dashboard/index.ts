@@ -61,17 +61,9 @@ export const createServerTimelineSchema = z.object({
   description: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
   images: z.any().optional(),
 
-  specializationTag: z.array(
-    z
-      .string()
-      .min(1, {
-        message: 'تگ باید حداقل 1 حرف باشد.',
-      })
-      .max(35, {
-        message: 'تگ نمی‌تواند بیش از 35 حرف باشد.',
-      })
-  ),
-
+  specializationId: z
+    .array(z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }))
+    .optional(),
   // .array()  satisfies Prisma.ImagesUncheckedCreateNestedManyWithoutDoctorInput,
   // booking: z.object({ booking_time: z.date() }).array().optional(),
   //Because we're working with Decimal, we should add "coerce"
@@ -84,16 +76,9 @@ export const createTimelineSchema = z.object({
   description: z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }),
   images: z.any().optional(),
 
-  specializationTag: z.array(
-    z
-      .string()
-      .min(1, {
-        message: 'تگ باید حداقل 1 حرف باشد.',
-      })
-      .max(35, {
-        message: 'تگ نمی‌تواند بیش از 35 حرف باشد.',
-      })
-  ),
+  specializationId: z
+    .array(z.string().min(1, { message: 'این قسمت نمی‌تواند خالی باشد' }))
+    .optional(),
 
   // .array()  satisfies Prisma.ImagesUncheckedCreateNestedManyWithoutDoctorInput,
   // booking: z.object({ booking_time: z.date() }).array().optional(),

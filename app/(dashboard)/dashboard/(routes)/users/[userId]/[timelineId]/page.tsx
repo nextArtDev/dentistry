@@ -1,8 +1,7 @@
 import React from 'react'
 
 import { prisma } from '@/lib/prisma'
-import DoctorForm from './components/TimelineForm'
-import UserForm from './components/TimelineForm'
+
 import { notFound } from 'next/navigation'
 import TimelineForm from './components/TimelineForm'
 
@@ -36,6 +35,7 @@ const UserPage = async ({
     },
     include: {
       images: { select: { url: true } },
+      specialization: true,
     },
   })
 

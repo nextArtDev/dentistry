@@ -20,7 +20,7 @@ interface CreateTimelineFormState {
     date?: string[]
     description?: string[]
     images?: string[]
-    specializationTag?: string[]
+    specializationId?: string[]
 
     _form?: string[]
   }
@@ -37,7 +37,7 @@ export async function createTimeline(
     userId: formData.get('userId'),
 
     images: formData.getAll('images'),
-    specializationTag: formData.getAll('specializationTag'),
+    specializationId: formData.getAll('specializationId'),
   })
   if (!result.success) {
     console.log(result.error.flatten().fieldErrors)
@@ -97,11 +97,11 @@ export async function createTimeline(
           })),
         },
         userId,
-        // specialization: {
-        //   connect: result.data?.specializationId?.map((id: string) => ({
-        //     id: id,
-        //   })),
-        // },
+        specialization: {
+          connect: result.data?.specializationId?.map((id: string) => ({
+            id: id,
+          })),
+        },
       },
     })
     // if (result.data.open_time) {
@@ -154,7 +154,7 @@ interface EditTimelineFormState {
     date?: string[]
     description?: string[]
     images?: string[]
-    specializationTag?: string[]
+    specializationId?: string[]
 
     _form?: string[]
   }
@@ -170,7 +170,7 @@ export async function editTimeline(
     description: formData.get('description'),
 
     images: formData.getAll('images'),
-    specializationTag: formData.getAll('specializationTag'),
+    specializationId: formData.getAll('specializationId'),
   })
 
   // console.log(result)

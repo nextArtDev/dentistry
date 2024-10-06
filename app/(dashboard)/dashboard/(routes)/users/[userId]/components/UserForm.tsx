@@ -53,11 +53,13 @@ import React from 'react'
 type UserFormValues = z.infer<typeof createUserSchema>
 
 interface UserFormProps {
-  initialData: User & { profileImag: { url: string } | null } & {
-    beforeImage: { url: string } | null
-  } & {
-    afterImag: { url: string } | null
-  }
+  initialData:
+    | (User & { profileImage: { url: string } | null } & {
+        beforeImage: { url: string } | null
+      } & {
+        afterImag: { url: string } | null
+      })
+    | null
   //   | (User &
   //     {
   //       images: Image[]

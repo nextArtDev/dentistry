@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Image,
   Specialization,
-  SpecializationTag,
+  SpecializationId,
   TimeLine,
   User,
 } from '@prisma/client'
@@ -69,7 +69,7 @@ interface TimelineFormProps {
   initialData:
     | (TimeLine & {
         images: { url: string }[] | null
-      } & { specializationTag: SpecializationTag[] | null })
+      } & { specialization: Specialization[] })
     | null
   userId: string
   specialization: Specialization[]
@@ -106,10 +106,8 @@ const TimelineForm: FC<TimelineFormProps> = ({
 
         description: initialData.description || '',
 
-        // specializationTag:
-        //   initialData.open_time.map((w: { time: string }) => w.time) || [],
-        // main_image: initialData.main_image || '',
-        // bio: initialData.bio || '',
+        specializationId:
+          initialData.specialization.map((w: { id: string }) => w.id) || [],
       }
     : {
         // name: '',
@@ -124,7 +122,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
         // open_time: [],
         // close_time: [],
         // price: 0,
-        // specializationId: [],
+        specializationId: [],
       }
 
   const form = useForm<TimelineFormValues>({
@@ -145,9 +143,9 @@ const TimelineForm: FC<TimelineFormProps> = ({
     //     formData.append('specializationId', data.specializationId[i])
     //   }
     // }
-    if (data.specializationTag && data.specializationTag.length > 0) {
-      for (let i = 0; i < data.specializationTag.length; i++) {
-        formData.append('specializationTag', data.specializationTag[i])
+    if (data.specializationId && data.specializationId.length > 0) {
+      for (let i = 0; i < data.specializationId.length; i++) {
+        formData.append('specializationId', data.specializationId[i])
       }
     }
     if (data.images && data.images.length > 0) {
@@ -182,10 +180,10 @@ const TimelineForm: FC<TimelineFormProps> = ({
                   type: 'custom',
                   message: res?.errors.images?.join(' و '),
                 })
-              } else if (res.errors?.specializationTag) {
-                form.setError('specializationTag', {
+              } else if (res.errors?.specializationId) {
+                form.setError('specializationId', {
                   type: 'custom',
-                  message: res?.errors.specializationTag?.join(' و '),
+                  message: res?.errors.specializationId?.join(' و '),
                 })
               } else if (res?.errors?._form) {
                 toast.error(res?.errors._form?.join(' و '))
@@ -215,10 +213,10 @@ const TimelineForm: FC<TimelineFormProps> = ({
                   type: 'custom',
                   message: res?.errors.images?.join(' و '),
                 })
-              } else if (res.errors?.specializationTag) {
-                form.setError('specializationTag', {
+              } else if (res.errors?.specializationId) {
+                form.setError('specializationId', {
                   type: 'custom',
-                  message: res?.errors.specializationTag?.join(' و '),
+                  message: res?.errors.specializationId?.join(' و '),
                 })
               } else if (res?.errors?._form) {
                 toast.error(res?.errors._form?.join(' و '))
@@ -239,16 +237,16 @@ const TimelineForm: FC<TimelineFormProps> = ({
   //   e: KeyboardEvent<HTMLInputElement>,
   //   field: any
   // ) => {
-  //   if (e.key === 'Enter' && field.name === 'specializationTag') {
+  //   if (e.key === 'Enter' && field.name === 'specializationId') {
   //     e.preventDefault()
 
   //     const tagInput = e.target as HTMLInputElement
 
   //     if (tagInput.value !== '') {
   //       if (!field.value?.includes(tagInput.value as never)) {
-  //         form.setValue('specializationTag', [...field.value, tagInput.value])
+  //         form.setValue('specializationId', [...field.value, tagInput.value])
   //         tagInput.value = ''
-  //         form.clearErrors('specializationTag')
+  //         form.clearErrors('specializationId')
   //       }
   //     } else {
   //       form.trigger()
@@ -259,7 +257,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
   // const handleTagRemove = (tag: string, field: any) => {
   //   const newTags = field.value?.filter((t: string) => t !== tag)
 
-  //   form.setValue('specializationTag', newTags)
+  //   form.setValue('specializationId', newTags)
   // }
   const validUrls =
     initialData && initialData.images
@@ -444,7 +442,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
             />
             <FormField
               control={form.control}
-              name="specializationTag"
+              name="specializationId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -467,7 +465,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
                   />
 
                   <FormMessage>
-                    {form.getFieldState('specializationTag')?.error?.message}
+                    {form.getFieldState('specializationId')?.error?.message}
                   </FormMessage>
                 </FormItem>
               )}
