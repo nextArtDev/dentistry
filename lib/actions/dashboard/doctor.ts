@@ -1,16 +1,12 @@
 'use server'
 import { auth } from '@/auth'
 import { prisma } from '@/lib/prisma'
-import {
-  createDoctorSchema,
-  createSpecializationSchema,
-  createUserSchema,
-} from '@/lib/schemas/dashboard'
-import { DateTag, Doctor, Specialization, User } from '@prisma/client'
-import { deleteFileFromS3, uploadFileToS3 } from '../s3Upload'
+import { createUserSchema } from '@/lib/schemas/dashboard'
+import { User } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import sharp from 'sharp'
+import { deleteFileFromS3, uploadFileToS3 } from '../s3Upload'
 
 interface CreateUserFormState {
   // success?: string
@@ -69,13 +65,18 @@ export async function createUser(
   }
 
   // console.log(result)
-  const gender = result.data.gender === '2' ? 'زن' : 'مرد'
+  const gender = result.data?.gender === '2' ? 'زن' : 'مرد'
   // console.log('result.data', result.data)
-  let user: User
+
   try {
     const isExisting = await prisma.user.findFirst({
       where: {
-        password: result.data.password,
+        OR: [
+          {
+            phone: result.data.phone,
+          },
+          { password: result.data.password },
+        ],
       },
     })
     if (isExisting) {
@@ -125,7 +126,7 @@ export async function createUser(
     //   }
     // }
 
-    user = await prisma.user.create({
+    await prisma.user.create({
       data: {
         name: result.data.name,
         phone: result.data.phone!,
@@ -149,7 +150,7 @@ export async function createUser(
     //     const newTimeData = await prisma.dateTag.create({
     //       data: {
     //         time,
-    //         doctorId: doctor.id,
+    //         userId: doctor.id,
     //       },
     //     })
     //     timeData.push(newTimeData.id)
@@ -201,6 +202,7 @@ interface EditUserFormState {
     _form?: string[]
   }
 }
+
 export async function editUser(
   formData: FormData,
   userId: string,
@@ -212,10 +214,10 @@ export async function editUser(
     // price: formData.get('price'),
     password: formData.get('password'),
     bio: formData.get('bio'),
-    gender: formData.getAll('gender'),
-    profileImage: formData.getAll('profileImage'),
-    beforeImage: formData.getAll('beforeImage'),
-    afterImage: formData.getAll('afterImage'),
+    gender: formData.get('gender'),
+    profileImage: formData.get('profileImage'),
+    beforeImage: formData.get('beforeImage'),
+    afterImage: formData.get('afterImage'),
   })
 
   // console.log(result)
@@ -235,179 +237,156 @@ export async function editUser(
       },
     }
   }
+  const gender = result.data?.gender === '2' ? 'زن' : 'مرد'
 
   try {
-    let doctor: Doctor
     const isExisting:
-      | (Doctor & {
-          images: { id: string; key: string }[] | null
-        } & { specialization: Specialization[] } & { open_time: DateTag[] })
+      | (User & {
+          profileImage: { id: string; key: string } | null
+          beforeImage: { id: string; key: string } | null
+          afterImage: { id: string; key: string } | null
+        })
       | null = await prisma.user.findFirst({
       where: { id: userId },
       include: {
-        images: { select: { id: true, key: true } },
-        specialization: true,
-        open_time: true,
+        profileImage: { select: { id: true, key: true } },
+        beforeImage: { select: { id: true, key: true } },
+        afterImage: { select: { id: true, key: true } },
       },
     })
     if (!isExisting) {
       return {
         errors: {
-          _form: ['دکتر حذف شده است!'],
+          _form: ['کاربر حذف شده است!'],
         },
       }
     }
-    const isNameExisting = await prisma.user.findFirst({
+    const isPhoneExisting = await prisma.user.findFirst({
       where: {
-        name: result.data.name,
+        OR: [
+          {
+            phone: result.data.phone,
+          },
+          { password: result.data.password },
+        ],
 
         NOT: { id: userId },
       },
     })
 
-    if (isNameExisting) {
+    if (isPhoneExisting) {
       return {
         errors: {
-          _form: ['دکتر با این نام موجود است!'],
+          _form: ['کاربر با این نام یا شماره موجود است!'],
         },
       }
     }
 
+    if (
+      typeof result.data.profileImage === 'object' &&
+      result.data.profileImage instanceof File
+    ) {
+      const buffer = Buffer.from(await result.data?.profileImage?.arrayBuffer())
+      const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
+      const res = await uploadFileToS3(
+        convertedBuffer,
+        result.data?.profileImage?.name
+      )
+
+      // console.log(res)
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          profileImage: {
+            disconnect: { id: isExisting.profileImage?.id },
+          },
+        },
+      })
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          profileImageId: res?.imageId,
+        },
+      })
+    }
+    if (
+      typeof result.data.beforeImage === 'object' &&
+      result.data.beforeImage instanceof File
+    ) {
+      const buffer = Buffer.from(await result.data?.beforeImage?.arrayBuffer())
+      const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
+      const res = await uploadFileToS3(
+        convertedBuffer,
+        result.data?.beforeImage?.name
+      )
+
+      // console.log(res)
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          beforeImage: {
+            disconnect: { id: isExisting.beforeImage?.id },
+          },
+        },
+      })
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          beforeImageId: res?.imageId,
+        },
+      })
+    }
+    if (
+      typeof result.data.afterImage === 'object' &&
+      result.data.afterImage instanceof File
+    ) {
+      const buffer = Buffer.from(await result.data?.afterImage?.arrayBuffer())
+      const convertedBuffer = await sharp(buffer).webp({ effort: 6 }).toBuffer()
+      const res = await uploadFileToS3(
+        convertedBuffer,
+        result.data?.afterImage?.name
+      )
+
+      // console.log(res)
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          afterImage: {
+            disconnect: { id: isExisting.afterImage?.id },
+          },
+        },
+      })
+      await prisma.user.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          afterImageId: res?.imageId,
+        },
+      })
+    }
     await prisma.user.update({
       where: {
         id: userId,
       },
       data: {
-        specialization: {
-          disconnect: isExisting.specialization?.map((specialization) => ({
-            id: specialization.id,
-          })),
-        },
-        open_time: {
-          disconnect: isExisting.open_time?.map((open) => ({
-            id: open.id,
-          })),
-        },
+        name: result.data.name,
+        phone: result.data.phone!,
+        password: result.data.password,
+        bio: result?.data.bio,
+        gender: gender,
       },
     })
-    if (
-      typeof result.data.images[0] === 'object' &&
-      result.data.images[0] instanceof File
-    ) {
-      let imageIds: string[] = []
-      for (let img of result.data.images) {
-        const buffer = Buffer.from(await img.arrayBuffer())
-        const res = await uploadFileToS3(buffer, img.name)
-
-        if (res?.imageId && typeof res.imageId === 'string') {
-          imageIds.push(res.imageId)
-        }
-      }
-      // console.log(res)
-      await prisma.doctor.update({
-        where: {
-          id: doctorId,
-        },
-        data: {
-          images: {
-            disconnect: isExisting.images?.map((image: { id: string }) => ({
-              id: image.id,
-            })),
-          },
-        },
-      })
-      doctor = await prisma.doctor.update({
-        where: {
-          id: doctorId,
-        },
-        data: {
-          name: result.data.name,
-          description: result.data.description,
-
-          phone: result.data.phone,
-          // price: +result.data.price,
-          website: result.data.website,
-
-          images: {
-            connect: imageIds.map((id) => ({
-              id: id,
-            })),
-          },
-          specialization: {
-            connect: result.data.specializationId?.map((id) => ({
-              id: id,
-            })),
-          },
-        },
-      })
-      if (result.data.open_time) {
-        const timeData = []
-        for (const time of result.data.open_time) {
-          const newTimeData = await prisma.dateTag.create({
-            data: {
-              time,
-              doctorId: doctor.id,
-            },
-          })
-          timeData.push(newTimeData.id)
-        }
-        await prisma.doctor.update({
-          where: {
-            id: doctor.id,
-          },
-          data: {
-            open_time: {
-              connect: timeData.map((id: string) => ({
-                id,
-              })),
-            },
-          },
-        })
-      }
-    } else {
-      doctor = await prisma.doctor.update({
-        where: {
-          id: doctorId,
-        },
-        data: {
-          name: result.data.name,
-          description: result.data.description,
-          phone: result.data.phone,
-          // price: +result.data.price,
-          website: result.data.website,
-
-          specialization: {
-            connect: result.data.specializationId?.map((id) => ({
-              id: id,
-            })),
-          },
-        },
-      })
-    }
-    if (result.data.open_time) {
-      const timeData = []
-      for (const time of result.data.open_time) {
-        const newTimeData = await prisma.dateTag.create({
-          data: {
-            time,
-            doctorId: doctor.id,
-          },
-        })
-        timeData.push(newTimeData.id)
-      }
-      await prisma.doctor.update({
-        where: {
-          id: doctor.id,
-        },
-        data: {
-          open_time: {
-            connect: timeData.map((id: string) => ({
-              id,
-            })),
-          },
-        },
-      })
-    }
     // imageId: res?.imageId,
     // console.log(billboard)
   } catch (err: unknown) {
@@ -427,12 +406,12 @@ export async function editUser(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }
 
 //////////////////////
 
-interface DeleteDoctorFormState {
+interface DeleteUserFormState {
   errors: {
     name?: string[]
     description?: string[]
@@ -442,12 +421,12 @@ interface DeleteDoctorFormState {
   }
 }
 
-export async function deleteDoctor(
+export async function deleteUser(
   path: string,
-  doctorId: string,
-  formState: DeleteDoctorFormState,
+  userId: string,
+  formState: DeleteUserFormState,
   formData: FormData
-): Promise<DeleteDoctorFormState> {
+): Promise<DeleteUserFormState> {
   // console.log({ path, storeId, categoryId })
   const session = await auth()
   if (!session || !session.user || session.user.role !== 'ADMIN') {
@@ -458,48 +437,60 @@ export async function deleteDoctor(
     }
   }
   // console.log(result)
-  if (!doctorId) {
+  if (!userId) {
     return {
       errors: {
-        _form: ['دکتر موجود نیست!'],
+        _form: ['کاربر موجود نیست!'],
       },
     }
   }
 
   try {
     const isExisting:
-      | (Doctor & {
-          images:
-            | {
-                id: string
-                key: string
-              }[]
-            | null
+      | (User & {
+          profileImage: {
+            id: string
+            key: string
+          } | null
+        } & {
+          beforeImage: {
+            id: string
+            key: string
+          } | null
+        } & {
+          afterImage: {
+            id: string
+            key: string
+          } | null
         })
-      | null = await prisma.doctor.findFirst({
-      where: { id: doctorId },
+      | null = await prisma.user.findFirst({
+      where: { id: userId },
       include: {
-        images: { select: { id: true, key: true } },
+        profileImage: { select: { id: true, key: true } },
+        beforeImage: { select: { id: true, key: true } },
+        afterImage: { select: { id: true, key: true } },
       },
     })
     if (!isExisting) {
       return {
         errors: {
-          _form: ['دکتر حذف شده است!'],
+          _form: ['کاربر حذف شده است!'],
         },
       }
     }
 
-    if (isExisting.images) {
-      for (let image of isExisting.images) {
-        if (image.key) {
-          await deleteFileFromS3(image.key)
-        }
-      }
+    if (isExisting.profileImage) {
+      await deleteFileFromS3(isExisting.profileImage.key)
     }
-    await prisma.doctor.delete({
+    if (isExisting.afterImage) {
+      await deleteFileFromS3(isExisting.afterImage.key)
+    }
+    if (isExisting.beforeImage) {
+      await deleteFileFromS3(isExisting.beforeImage.key)
+    }
+    await prisma.user.delete({
       where: {
-        id: doctorId,
+        id: userId,
       },
     })
   } catch (err: unknown) {
@@ -519,5 +510,5 @@ export async function deleteDoctor(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }

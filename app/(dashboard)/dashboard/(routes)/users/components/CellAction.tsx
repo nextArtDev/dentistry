@@ -15,9 +15,10 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { AlertModal } from '@/components/dashboard/AlertModal'
-import { deleteDoctor } from '@/lib/actions/dashboard/doctor'
+
 import { useFormState } from 'react-dom'
 import { UserColumn } from './columns'
+import { deleteUser } from '@/lib/actions/dashboard/doctor'
 
 interface CellActionProps {
   data: UserColumn
@@ -30,7 +31,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter()
 
   const [deleteState, deleteAction] = useFormState(
-    deleteDoctor.bind(null, path, data?.id as string),
+    deleteUser.bind(null, path, data?.id as string),
     {
       errors: {},
     }

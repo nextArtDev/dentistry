@@ -1,43 +1,30 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Image, User } from '@prisma/client'
+import { User } from '@prisma/client'
 import { usePathname } from 'next/navigation'
 
-import { FC, KeyboardEvent, useState, useTransition } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { AlertModal } from '../../../../../../../components/dashboard/AlertModal'
 import { Button, buttonVariants } from '@/components/ui/button'
-import { Plus, Trash, UploadCloud } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Separator } from '@/components/ui/separator'
+import { Plus, Trash } from 'lucide-react'
+import { FC, useState, useTransition } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { AlertModal } from '../../../../../../../components/dashboard/AlertModal'
 
-import { createUserSchema } from '@/lib/schemas/dashboard'
-import { toast } from 'sonner'
 import { AspectRatio } from '@/components/ui/aspect-ratio'
-import ImageSlider from '@/components/dashboard/ImageSlider'
+import { createUserSchema } from '@/lib/schemas/dashboard'
 import { cn } from '@/lib/utils'
+import { toast } from 'sonner'
 
-import NextImage from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import {
-  createDoctor,
-  createUser,
-  deleteDoctor,
-  editDoctor,
-  editUser,
-} from '@/lib/actions/dashboard/doctor'
-import { useFormState } from 'react-dom'
-import { MultiSelect } from '@/components/dashboard/multi-select'
 import {
   Select,
   SelectContent,
@@ -45,8 +32,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import {
+  createUser,
+  deleteUser,
+  editUser,
+} from '@/lib/actions/dashboard/doctor'
+import NextImage from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import { useFormState } from 'react-dom'
 
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
@@ -292,8 +285,8 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
       : null
 
   const validUrl =
-    initialData && initialData.profileImag
-      ? initialData.profileImag.url
+    initialData && initialData.profileImage
+      ? initialData.profileImage.url
       : file
       ? URL.createObjectURL(file)
       : null
@@ -325,7 +318,7 @@ const UserForm: FC<UserFormProps> = ({ initialData }) => {
   //   form.setValue('open_time', newTags)
   // }
   const [deleteState, deleteAction] = useFormState(
-    deleteDoctor.bind(null, path, initialData?.id as string),
+    deleteUser.bind(null, path, initialData?.id as string),
     {
       errors: {},
     }

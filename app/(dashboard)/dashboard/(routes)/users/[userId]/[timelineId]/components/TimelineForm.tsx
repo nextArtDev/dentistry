@@ -11,7 +11,7 @@ import { usePathname } from 'next/navigation'
 
 import { FC, KeyboardEvent, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { date, z } from 'zod'
 import { AlertModal } from '../../../../../../../../components/dashboard/AlertModal'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { CalendarIcon, Plus, Trash, UploadCloud } from 'lucide-react'
@@ -33,24 +33,9 @@ import { AspectRatio } from '@/components/ui/aspect-ratio'
 import ImageSlider from '@/components/dashboard/ImageSlider'
 import { cn } from '@/lib/utils'
 
-import NextImage from 'next/image'
-import { Badge } from '@/components/ui/badge'
-import {
-  createDoctor,
-  createUser,
-  deleteDoctor,
-  editDoctor,
-  editUser,
-} from '@/lib/actions/dashboard/doctor'
 import { useFormState } from 'react-dom'
 import { MultiSelect } from '@/components/dashboard/multi-select'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
+
 import Link from 'next/link'
 import {
   Popover,
@@ -58,8 +43,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
-import { format } from 'date-fns-jalali'
+import { format, parse } from 'date-fns-jalali'
 import { createTimeline, editTimeline } from '@/lib/actions/dashboard/timeline'
+import { deleteUser } from '@/lib/actions/dashboard/doctor'
 // import { specializations } from '@/constants'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
 
@@ -103,6 +89,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
         ...initialData,
         //In prisma mysql price is Decimal but here it has to be a float
         // price: parseFloat(String(initialData?.price)),
+        // date: new Intl.DateTimeFormat('fa-IR').format(initialData.date),
 
         description: initialData.description || '',
 
@@ -267,7 +254,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
           .filter(Boolean) as string[])
 
   const [deleteState, deleteAction] = useFormState(
-    deleteDoctor.bind(null, path, initialData?.id as string),
+    deleteUser.bind(null, path, initialData?.id as string),
     {
       errors: {},
     }
@@ -374,54 +361,58 @@ const TimelineForm: FC<TimelineFormProps> = ({
           </div>
 
           <div className="flex flex-col gap-8 md:grid md:grid-cols-3  ">
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem className="flex flex-col mx-auto max-w-sm w-fit">
-                  <FormLabel> تاریخ</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant={'outline'}
-                          className={cn(
-                            'w-[240px] pl-3 text-left font-normal',
-                            !field.value && 'text-muted-foreground'
-                          )}
-                        >
-                          {field.value ? (
-                            // format(field.value, '')
-                            new Intl.DateTimeFormat('fa-IR').format(field.value)
-                          ) : (
-                            <span>انتخاب روز</span>
-                          )}
-                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 " align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={field.onChange}
-                        // onDayClick={(date) =>
-                        //   setModal(format(date, 'yyyy/MM/dd'))
-                        // }
-                        disabled={(date) =>
-                          date < new Date() || date < new Date('1900-01-01')
-                        }
-                        dir="rtl"
-                        // locale={faIR}
-                        // initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+            {!initialData && (
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col mx-auto max-w-sm w-fit">
+                    <FormLabel> تاریخ</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'w-[240px] pl-3 text-left font-normal',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value ? (
+                              // format(field.value, '')
+                              new Intl.DateTimeFormat('fa-IR').format(
+                                field.value
+                              )
+                            ) : (
+                              <span>انتخاب روز</span>
+                            )}
+                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 " align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          // onDayClick={(date) =>
+                          //   setModal(format(date, 'yyyy/MM/dd'))
+                          // }
+                          disabled={(date) =>
+                            date < new Date() || date < new Date('1900-01-01')
+                          }
+                          dir="rtl"
+                          // locale={faIR}
+                          // initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <FormField
               control={form.control}

@@ -13,6 +13,7 @@ import { deleteFileFromS3, uploadFileToS3 } from '../s3Upload'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import sharp from 'sharp'
+import { format } from 'date-fns-jalali'
 
 interface CreateTimelineFormState {
   // success?: string
@@ -166,14 +167,14 @@ export async function editTimeline(
   userId: string
 ): Promise<EditTimelineFormState> {
   const result = createTimelineSchema.safeParse({
-    date: formData.get('date'),
+    // date: formData.get('date'),
     description: formData.get('description'),
 
     images: formData.getAll('images'),
     specializationId: formData.getAll('specializationId'),
   })
 
-  // console.log(result)
+  console.log(result.data?.date)
   // console.log(formData.getAll('images'))
 
   if (!result.success) {
@@ -192,55 +193,42 @@ export async function editTimeline(
   }
 
   try {
-    let doctor: Doctor
+    let timeline: TimeLine
     const isExisting:
-      | (Doctor & {
+      | (TimeLine & {
           images: { id: string; key: string }[] | null
-        } & { specialization: Specialization[] } & { open_time: DateTag[] })
-      | null = await prisma.user.findFirst({
-      where: { id: userId },
+        } & { specialization: Specialization[] })
+      | null = await prisma.timeLine.findFirst({
+      where: { id: timelineId },
       include: {
         images: { select: { id: true, key: true } },
         specialization: true,
-        open_time: true,
       },
     })
     if (!isExisting) {
       return {
         errors: {
-          _form: ['دکتر حذف شده است!'],
-        },
-      }
-    }
-    const isNameExisting = await prisma.user.findFirst({
-      where: {
-        name: result.data.name,
-
-        NOT: { id: userId },
-      },
-    })
-
-    if (isNameExisting) {
-      return {
-        errors: {
-          _form: ['دکتر با این نام موجود است!'],
+          _form: ['ویزیت حذف شده است!'],
         },
       }
     }
 
-    await prisma.user.update({
+    // if (isNameExisting) {
+    //   return {
+    //     errors: {
+    //       _form: ['دکتر با این نام موجود است!'],
+    //     },
+    //   }
+    // }
+
+    await prisma.timeLine.update({
       where: {
-        id: userId,
+        id: timelineId,
       },
       data: {
         specialization: {
           disconnect: isExisting.specialization?.map((specialization) => ({
             id: specialization.id,
-          })),
-        },
-        open_time: {
-          disconnect: isExisting.open_time?.map((open) => ({
-            id: open.id,
           })),
         },
       },
@@ -249,8 +237,8 @@ export async function editTimeline(
       typeof result.data.images[0] === 'object' &&
       result.data.images[0] instanceof File
     ) {
-      let imageIds: string[] = []
-      for (let img of result.data.images) {
+      const imageIds: string[] = []
+      for (const img of result.data.images) {
         const buffer = Buffer.from(await img.arrayBuffer())
         const res = await uploadFileToS3(buffer, img.name)
 
@@ -259,9 +247,9 @@ export async function editTimeline(
         }
       }
       // console.log(res)
-      await prisma.doctor.update({
+      await prisma.timeLine.update({
         where: {
-          id: doctorId,
+          id: timelineId,
         },
         data: {
           images: {
@@ -271,17 +259,16 @@ export async function editTimeline(
           },
         },
       })
-      doctor = await prisma.doctor.update({
+
+      timeline = await prisma.timeLine.update({
         where: {
-          id: doctorId,
+          id: timelineId,
         },
         data: {
-          name: result.data.name,
-          description: result.data.description,
+          date: format(result.data.date, 'yyyy/MM/dd'),
 
-          phone: result.data.phone,
-          // price: +result.data.price,
-          website: result.data.website,
+          isEspecial: true,
+          description: result.data.description,
 
           images: {
             connect: imageIds.map((id) => ({
@@ -291,73 +278,6 @@ export async function editTimeline(
           specialization: {
             connect: result.data.specializationId?.map((id) => ({
               id: id,
-            })),
-          },
-        },
-      })
-      if (result.data.open_time) {
-        const timeData = []
-        for (const time of result.data.open_time) {
-          const newTimeData = await prisma.dateTag.create({
-            data: {
-              time,
-              doctorId: doctor.id,
-            },
-          })
-          timeData.push(newTimeData.id)
-        }
-        await prisma.doctor.update({
-          where: {
-            id: doctor.id,
-          },
-          data: {
-            open_time: {
-              connect: timeData.map((id: string) => ({
-                id,
-              })),
-            },
-          },
-        })
-      }
-    } else {
-      doctor = await prisma.doctor.update({
-        where: {
-          id: doctorId,
-        },
-        data: {
-          name: result.data.name,
-          description: result.data.description,
-          phone: result.data.phone,
-          // price: +result.data.price,
-          website: result.data.website,
-
-          specialization: {
-            connect: result.data.specializationId?.map((id) => ({
-              id: id,
-            })),
-          },
-        },
-      })
-    }
-    if (result.data.open_time) {
-      const timeData = []
-      for (const time of result.data.open_time) {
-        const newTimeData = await prisma.dateTag.create({
-          data: {
-            time,
-            doctorId: doctor.id,
-          },
-        })
-        timeData.push(newTimeData.id)
-      }
-      await prisma.doctor.update({
-        where: {
-          id: doctor.id,
-        },
-        data: {
-          open_time: {
-            connect: timeData.map((id: string) => ({
-              id,
             })),
           },
         },
@@ -382,7 +302,7 @@ export async function editTimeline(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }
 
 //////////////////////
@@ -397,7 +317,7 @@ interface DeleteTimelineFormState {
   }
 }
 
-export async function deleteDoctor(
+export async function deleteTimeline(
   path: string,
   timelineId: string,
   formState: DeleteTimelineFormState,
@@ -416,7 +336,7 @@ export async function deleteDoctor(
   if (!timelineId) {
     return {
       errors: {
-        _form: ['دکتر موجود نیست!'],
+        _form: ['ویزیت موجود نیست!'],
       },
     }
   }
@@ -440,7 +360,7 @@ export async function deleteDoctor(
     if (!isExisting) {
       return {
         errors: {
-          _form: ['دکتر حذف شده است!'],
+          _form: ['ویزیت حذف شده است!'],
         },
       }
     }
@@ -474,5 +394,5 @@ export async function deleteDoctor(
   }
 
   revalidatePath(path)
-  redirect(`/dashboard/doctors`)
+  redirect(`/dashboard/users`)
 }

@@ -14,14 +14,11 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-import { toast } from '@/components/ui/use-toast'
-
 import { useFormState } from 'react-dom'
-import { deleteDoctor } from '@/lib/actions/dashboard/doctor'
-import loading from '../../../loading'
+import { deleteUser } from '@/lib/actions/dashboard/doctor'
+
 import { AlertModal } from '@/components/dashboard/AlertModal'
 import { PersonnelColumn } from './columns'
-import { deletePersonnel } from '@/lib/actions/dashboard/personnel'
 
 interface CellActionProps {
   data: PersonnelColumn
@@ -34,16 +31,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const router = useRouter()
 
   const [deleteState, deleteAction] = useFormState(
-    deletePersonnel.bind(null, path, data?.id as string),
+    deleteUser.bind(null, path, data?.id as string),
     {
       errors: {},
     }
   )
-
-  const onCopy = (id: string) => {
-    navigator.clipboard.writeText(id)
-    toast({ title: 'ID کپی شد', variant: 'default' })
-  }
 
   return (
     <>
