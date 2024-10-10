@@ -2,7 +2,7 @@
 
 // import axios from 'axios'
 import { Edit, MoreHorizontal, Trash } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useState, useTransition } from 'react'
 
 import { Button } from '@/components/ui/button'
@@ -15,23 +15,43 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { AlertModal } from '@/components/dashboard/AlertModal'
-
+import { deleteSpecialization } from '@/lib/actions/dashboard/specialization'
 import { useFormState } from 'react-dom'
-import { UserColumn } from './columns'
-import { deleteUser } from '@/lib/actions/dashboard/doctor'
+import { TimelineColumn } from './columns'
+import { deleteTimeline } from '@/lib/actions/dashboard/timeline'
 
 interface CellActionProps {
-  data: UserColumn
+  data: TimelineColumn
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const path = usePathname()
+  const params = useParams()
   const [isPending, startTransition] = useTransition()
   const [open, setOpen] = useState(false)
   const router = useRouter()
 
+  const onConfirm = async () => {
+    // try {
+    //   setLoading(true)
+    //   await axios.delete(`/api/specializations/${data.id}`)
+    //   toast({
+    //     title: 'تخصص حذف شد.',
+    //     variant: 'default',
+    //   })
+    //   router.refresh()
+    // } catch (error) {
+    //   toast({
+    //     title: 'مشکلی پیش آمده.',
+    //     variant: 'destructive',
+    //   })
+    // } finally {
+    //   setLoading(false)
+    //   setOpen(false)
+    // }
+  }
   const [deleteState, deleteAction] = useFormState(
-    deleteUser.bind(null, path, data?.id as string),
+    deleteTimeline.bind(null, path, data?.id as string),
     {
       errors: {},
     }
@@ -54,18 +74,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>عملیات</DropdownMenuLabel>
-          <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/users/${data.id}`)}
-          >
-            <Edit className="ml-2 h-4 w-4" /> آپدیت
-          </DropdownMenuItem>
+          {/* <DropdownMenuItem onClick={() => onCopy(`${data.id}`)}>
+            <Copy className="ml-2 h-4 w-4" /> کپی ID
+          </DropdownMenuItem> */}
           <DropdownMenuItem
             onClick={() =>
-              // router.push(`/dashboard/users/${data.id}/timeline/new`)
-              router.push(`/dashboard/users/${data.id}/timeline`)
+              router.push(
+                `/dashboard/users/${params.userId}/timeline/${data.id}`
+              )
             }
           >
-            <Edit className="ml-2 h-4 w-4" /> ویزیت‌ها
+            <Edit className="ml-2 h-4 w-4" /> آپدیت
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="ml-2 h-4 w-4" /> حذف

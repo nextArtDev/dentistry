@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation'
 import { FC, KeyboardEvent, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { date, z } from 'zod'
-import { AlertModal } from '../../../../../../../../components/dashboard/AlertModal'
+import { AlertModal } from '../../../../../../../../../components/dashboard/AlertModal'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { CalendarIcon, Plus, Trash, UploadCloud } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
@@ -44,7 +44,11 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { format, parse } from 'date-fns-jalali'
-import { createTimeline, editTimeline } from '@/lib/actions/dashboard/timeline'
+import {
+  createTimeline,
+  deleteTimeline,
+  editTimeline,
+} from '@/lib/actions/dashboard/timeline'
 import { deleteUser } from '@/lib/actions/dashboard/doctor'
 // import { specializations } from '@/constants'
 // import { MultiSelect } from '@/components/dashboard/MultiSelect'
@@ -254,7 +258,7 @@ const TimelineForm: FC<TimelineFormProps> = ({
           .filter(Boolean) as string[])
 
   const [deleteState, deleteAction] = useFormState(
-    deleteUser.bind(null, path, initialData?.id as string),
+    deleteTimeline.bind(null, path, initialData?.id as string),
     {
       errors: {},
     }

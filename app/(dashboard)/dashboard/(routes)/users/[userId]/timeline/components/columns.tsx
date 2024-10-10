@@ -1,0 +1,60 @@
+'use client'
+
+import { ColumnDef } from '@tanstack/react-table'
+
+import { CellAction } from './CellAction'
+
+export type TimelineColumn = {
+  id: string
+  date: string | null
+  name: string | null
+  // description: string | null
+}
+
+export const columns: ColumnDef<TimelineColumn>[] = [
+  {
+    accessorKey: 'date',
+    header: 'تاریخ',
+  },
+  // {
+  //   accessorKey: 'description',
+  //   header: 'توضیحات',
+  // },
+  {
+    accessorKey: 'name',
+    header: 'موضوع',
+  },
+  // {
+  //   accessorKey: 'close_time',
+  //   header: 'زمان پایان',
+  // },
+  //   {
+  //     accessorKey: 'category',
+  //     header: 'دسته‌بندی',
+  //   },
+  //   {
+  //     accessorKey: 'size',
+  //     header: 'سایز',
+  //   },
+  //   {
+  //     accessorKey: 'color',
+  //     header: 'رنگ',
+  //     cell: ({ row }) => (
+  //       <div className="flex items-center gap-x-2">
+  //         {row.original.color}
+  //         <div
+  //           className="h-6 w-6 rounded-full border"
+  //           style={{ backgroundColor: row.original.color }}
+  //         />
+  //       </div>
+  //     ),
+  //   },
+  // {
+  //   accessorKey: 'createdAt',
+  //   header: 'تاریخ',
+  // },
+  {
+    id: 'actions',
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
+]
