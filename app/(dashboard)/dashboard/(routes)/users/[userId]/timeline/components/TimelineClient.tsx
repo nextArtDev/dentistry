@@ -11,7 +11,7 @@ import { Heading } from '@/components/dashboard/Heading'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { TimelineColumn, columns } from './columns'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 // import { ApiList } from '@/components/dashboard/ApiList'
 
 interface TimelineClientProps {

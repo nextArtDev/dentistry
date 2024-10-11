@@ -24,12 +24,15 @@ const TimelinePage = async ({ params }: { params: { userId: string } }) => {
     //   createdAt: 'desc',
     // },
   })
-  console.log({ timeline })
+  //   console.log({ timeline })
   const formattedTimeline: TimelineColumn[] = timeline.map((item) => ({
     id: item.id,
     date: item.date,
     description: item.description,
-    name: item.specialization.map((sp) => sp.name)[0],
+    name:
+      item.specialization.length > 1
+        ? item.specialization.map((sp) => sp.name)[0] + '، ...'
+        : item.specialization.map((sp) => sp.name)[0],
 
     // description: item?.description,
     // specialization: item.specialization.id,

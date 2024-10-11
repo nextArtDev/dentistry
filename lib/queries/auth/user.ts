@@ -15,10 +15,23 @@ export const getUserById = async (id: string | undefined) => {
     if (!id) return null
     const user = await prisma.user.findUnique({
       where: { id },
-      include: { image: { select: { url: true } } },
+      include: { profileImage: { select: { url: true } } },
     })
 
     return user
+  } catch {
+    return null
+  }
+}
+export const getUserTimelines = async (id: string | undefined) => {
+  try {
+    if (!id) return null
+    const timeline = await prisma.timeLine.findMany({
+      where: { userId: id },
+      include: { images: { select: { url: true } } },
+    })
+
+    return timeline
   } catch {
     return null
   }
