@@ -4,6 +4,7 @@ import { getUserTimelines } from '@/lib/queries/auth/user'
 import Image from 'next/image'
 import { notFound, redirect } from 'next/navigation'
 import React from 'react'
+import InfiniteScrolling from './components/InfiniteScrolling'
 
 // const data = [
 //   {
@@ -149,14 +150,33 @@ import React from 'react'
 //     ),
 //   },
 // ]
-async function page() {
+async function page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
   const user = await currentUser()
-  if (!user) redirect('/login')
-  const timeline = await getUserTimelines(user.id)
-  console.log({ timeline })
+  if (!user || !user.id) redirect('/login')
+  const timeline = await getUserTimelines({ id: user.id, limit: 3 })
+
+  // console.log({ timeline })
   return (
     <div dir="ltr" className="w-full min-h-screen text-right ">
       {/* <Timeline data={data} /> */}
+      <section className="w-full h-full mx-auto py-20  ">
+        {/* {timeline?.map((t) => (
+          <div
+            key={t.id}
+            className="flex flex-col mx-auto w-3/4 bg-red-400/60 rounded-md h-[50vh] my-20 items-center justify-center gap-8"
+          >
+            <div>{t.date}</div>
+            <div>{t.description}</div>
+          </div>
+        ))} */}
+        {!!timeline && (
+          <InfiniteScrolling initials={timeline} userId={user.id} />
+        )}
+      </section>
     </div>
   )
 }

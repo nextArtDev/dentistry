@@ -1,3 +1,5 @@
+'use server'
+
 import { prisma } from '@/lib/prisma'
 
 export const getUserByPhoneNumber = async (phone: string) => {
@@ -23,12 +25,28 @@ export const getUserById = async (id: string | undefined) => {
     return null
   }
 }
-export const getUserTimelines = async (id: string | undefined) => {
+
+interface GetUserTimelinesProps {
+  id: string
+  page?: number
+  limit?: number
+}
+export const getUserTimelines = async ({
+  id,
+  page = 1,
+  limit = 3,
+}: GetUserTimelinesProps) => {
+  const skip = (page - 1) * limit
   try {
     if (!id) return null
     const timeline = await prisma.timeLine.findMany({
       where: { userId: id },
       include: { images: { select: { url: true } } },
+      take: limit,
+      skip,
+      orderBy: {
+        created_at: 'asc',
+      },
     })
 
     return timeline
