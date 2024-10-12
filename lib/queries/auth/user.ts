@@ -45,7 +45,7 @@ export const getUserTimelines = async ({
       take: limit,
       skip,
       orderBy: {
-        created_at: 'asc',
+        created_at: 'desc',
       },
     })
 

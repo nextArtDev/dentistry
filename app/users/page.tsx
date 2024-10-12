@@ -150,11 +150,7 @@ import InfiniteScrolling from './components/InfiniteScrolling'
 //     ),
 //   },
 // ]
-async function page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined }
-}) {
+async function page() {
   const user = await currentUser()
   if (!user || !user.id) redirect('/login')
   const timeline = await getUserTimelines({ id: user.id, limit: 3 })

@@ -6,12 +6,13 @@ import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 import { getUserTimelines } from '@/lib/queries/auth/user'
 import { TimeLine } from '@prisma/client'
+import { Timeline } from '@/components/timeline/timeline'
 
 export default function InfiniteScrolling({
   initials,
   userId,
 }: {
-  initials: TimeLine[] | undefined
+  initials: (TimeLine & { images: { url: string }[] | null })[] | undefined
   userId: string
 }) {
   const [timelines, setTimelines] = useState(initials)
@@ -23,10 +24,11 @@ export default function InfiniteScrolling({
     const timelines = await getUserTimelines({ id: userId, page: next })
     if (timelines?.length) {
       setPage(next)
-      setTimelines((prev: TimeLine[] | undefined) => [
-        ...(prev?.length ? prev : []),
-        ...timelines,
-      ])
+      setTimelines(
+        (
+          prev: (TimeLine & { images: { url: string }[] | null })[] | undefined
+        ) => [...(prev?.length ? prev : []), ...timelines]
+      )
     }
   }
 
@@ -37,14 +39,42 @@ export default function InfiniteScrolling({
     }
   }, [inView])
 
+  const data = timelines?.map((tl) => {
+    return {
+      title: tl.date,
+      content: (
+        <div>
+          <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
+            ویزیت
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            {!!tl?.images &&
+              tl.images.map((image) => (
+                <Image
+                  key={image.url}
+                  src={image.url}
+                  alt="startup template"
+                  width={500}
+                  height={500}
+                  className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]"
+                />
+              ))}
+          </div>
+        </div>
+      ),
+    }
+  })
+
   return (
-    <>
-      {timelines?.map((timeline) => (
+    <section>
+      {!!data && <Timeline data={data} />}
+
+      {/* {timelines?.map((timeline) => (
         <li
           key={timeline.id}
           className="relative flex flex-col mx-auto w-3/4 bg-red-400/60 rounded-md h-[50vh] my-20 items-center justify-center gap-8"
         >
-          {/* <div className="group aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
+          <div className="group aspect-square w-full overflow-hidden rounded-lg bg-gray-100">
             {timeline.images && (
               <Image
                 src={timeline.poster}
@@ -54,12 +84,12 @@ export default function InfiniteScrolling({
                 height={300}
               />
             )}
-          </div> */}
+          </div>
           <p className="mt-2 block truncate font-medium">{timeline.date}</p>
           <p className="block text-sm font-medium ">{timeline.description}</p>
           <p className="block text-sm font-medium ">{timeline.date}</p>
         </li>
-      ))}
+      ))} */}
 
       {/* loading spinner */}
       <div
@@ -84,6 +114,6 @@ export default function InfiniteScrolling({
         </svg>
         <span className="sr-only">Loading...</span>
       </div>
-    </>
+    </section>
   )
 }
